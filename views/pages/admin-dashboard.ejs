@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/admin-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard">
+
+        <div class="sidebar">
+
+            <div class="logo">
+
+                <h2>PropertyHub</h2>
+
+                <p>
+                    Admin Dashboard
+                </p>
+
+            </div>
+
+
+            <div class="sidebar-nav">
+
+                <a href="/admin-dashboard" class="active">
+                    Dashboard
+                </a>
+
+                <a href="/properties">
+                    Properties
+                </a>
+
+                <a href="/profile" id="profileLink">
+                    Profile
+                </a>
+
+                <a href="/">
+                    Back to Website
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="main-content">
+
+            <div class="top-bar">
+
+                <div>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Welcome back, Admin.
+                    </p>
+
+                </div>
+
+
+                <button id="logoutBtn">
+                    Logout
+                </button>
+
+            </div>
+
+
+            <div id="message"></div>
+
+
+            <div class="dashboard-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <h2>
+                            Pending Properties
+                        </h2>
+
+                        <p>
+                            Review properties waiting for approval.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="properties" class="property-grid">
+
+                    <p class="loading">
+                        Loading properties...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <h2>
+                            Users
+                        </h2>
+
+                        <p>
+                            Manage registered PropertyHub users.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="users" class="user-list">
+
+                    <p class="loading">
+                        Loading users...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+    const token = localStorage.getItem("token");
+
+
+    if (!token) {
+
+        window.location.href = "/login";
+
+    }
+
+
+    const propertiesContainer =
+        document.getElementById("properties");
+
+
+    const usersContainer =
+        document.getElementById("users");
+
+
+    const message =
+        document.getElementById("message");
+
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+
+    const profileLink =
+        document.getElementById("profileLink");
+
+
+    async function checkAdminAccess() {
+
+        if (!token) {
+
+            alert(
+                "Please login to access the admin dashboard."
+            );
+
+            window.location.href =
+                "/login";
+
+            return false;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/admin/users",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.status === 401) {
+
+                localStorage.removeItem("token");
+
+                alert(
+                    "Your session has expired. Please login again."
+                );
+
+                window.location.href =
+                    "/login";
+
+                return false;
+            }
+
+
+            if (response.status === 403) {
+
+                alert(
+                    "Admin access only."
+                );
+
+                window.location.href =
+                    "/";
+
+                return false;
+            }
+
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Unable to verify admin access."
+                );
+
+                window.location.href =
+                    "/";
+
+                return false;
+            }
+
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to verify admin access."
+            );
+
+            window.location.href =
+                "/";
+
+            return false;
+
+        }
+
+    }
+
+
+    function showMessage(text) {
+
+        message.textContent =
+            text;
+
+
+        message.style.display =
+            "block";
+
+
+        setTimeout(
+            function () {
+
+                message.style.display =
+                    "none";
+
+            },
+            3000
+        );
+
+    }
+
+
+    async function getProperties() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/admin/properties/pending",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                propertiesContainer.innerHTML = `
+
+                    <p class="empty">
+                        ${data.message}
+                    </p>
+
+                `;
+
+                return;
+            }
+
+
+            propertiesContainer.innerHTML =
+                "";
+
+
+            if (
+                !data.properties ||
+                data.properties.length === 0
+            ) {
+
+                propertiesContainer.innerHTML = `
+
+                    <p class="empty">
+                        No pending properties.
+                    </p>
+
+                `;
+
+                return;
+            }
+
+
+            data.properties.forEach(
+                function (property) {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "property";
+
+
+                    div.innerHTML = `
+
+                        <div class="property-content">
+
+                            <h3>
+                                ${property.title}
+                            </h3>
+
+
+                            <p class="description">
+                                ${property.description}
+                            </p>
+
+
+                            <div class="property-details">
+
+                                <p>
+
+                                    <strong>
+                                        Price:
+                                    </strong>
+
+                                    #${Number(
+                        property.price
+                    ).toLocaleString()}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Location:
+                                    </strong>
+
+                                    ${property.city},
+                                    ${property.state}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Type:
+                                    </strong>
+
+                                    ${property.propertyType}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Bedrooms:
+                                    </strong>
+
+                                    ${property.bedrooms}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Bathrooms:
+                                    </strong>
+
+                                    ${property.bathrooms}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="property-actions">
+
+                            <button
+                                class="approve"
+                                onclick="approveProperty('${property._id}')"
+                            >
+                                Approve
+                            </button>
+
+
+                            <button
+                                class="reject"
+                                onclick="rejectProperty('${property._id}')"
+                            >
+                                Reject
+                            </button>
+
+                        </div>
+
+                    `;
+
+
+                    propertiesContainer.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            propertiesContainer.innerHTML = `
+
+                <p class="empty">
+                    Unable to load properties.
+                </p>
+
+            `;
+
+        }
+
+    }
+
+
+    async function approveProperty(id) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/admin/properties/${id}/approve`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    data.message
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                data.message
+            );
+
+
+            getProperties();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Unable to approve property."
+            );
+
+        }
+
+    }
+
+
+    async function rejectProperty(id) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/admin/properties/${id}/reject`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    data.message
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                data.message
+            );
+
+
+            getProperties();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Unable to reject property."
+            );
+
+        }
+
+    }
+
+
+    async function getUsers() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/admin/users",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                usersContainer.innerHTML = `
+
+                    <p class="empty">
+                        ${data.message}
+                    </p>
+
+                `;
+
+                return;
+            }
+
+
+            usersContainer.innerHTML =
+                "";
+
+
+            if (
+                !data.users ||
+                data.users.length === 0
+            ) {
+
+                usersContainer.innerHTML = `
+
+                    <p class="empty">
+                        No users found.
+                    </p>
+
+                `;
+
+                return;
+            }
+
+
+            data.users.forEach(
+                function (user) {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "user";
+
+
+                    div.innerHTML = `
+
+                        <div class="user-info">
+
+                            <h3>
+                                ${user.name}
+                            </h3>
+
+
+                            <p>
+                                ${user.email}
+                            </p>
+
+
+                            <span
+                                class="user-status ${user.isActive
+                            ? "active-status"
+                            : "inactive-status"
+                        }"
+                            >
+
+                                ${user.isActive
+                            ? "Active"
+                            : "Inactive"
+                        }
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="user-actions">
+
+                            <button
+                                class="status-btn"
+                                onclick="changeStatus('${user._id}')"
+                            >
+
+                                ${user.isActive
+                            ? "Deactivate"
+                            : "Activate"
+                        }
+
+                            </button>
+
+
+                            <button
+                                class="delete"
+                                onclick="deleteUser('${user._id}')"
+                            >
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+
+                    usersContainer.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            usersContainer.innerHTML = `
+
+                <p class="empty">
+                    Unable to load users.
+                </p>
+
+            `;
+
+        }
+
+    }
+
+
+    async function changeStatus(id) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/admin/users/${id}/status`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    data.message
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                data.message
+            );
+
+
+            getUsers();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Unable to change user status."
+            );
+
+        }
+
+    }
+
+
+    async function deleteUser(id) {
+
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to delete this user?"
+            );
+
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/admin/users/${id}`,
+                    {
+                        method: "DELETE",
+
+                        headers: {
+                            "Authorization":
+                                "Bearer " + token
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    data.message
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                data.message
+            );
+
+
+            getUsers();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Unable to delete user."
+            );
+
+        }
+
+    }
+
+
+    logoutBtn.addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem(
+                "token"
+            );
+
+
+            window.location.href =
+                "/login";
+
+        }
+    );
+
+
+    profileLink.addEventListener(
+        "click",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const profileToken =
+                localStorage.getItem(
+                    "token"
+                );
+
+
+            if (!profileToken) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/profile",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    profileToken
+                            }
+                        }
+                    );
+
+
+                const html =
+                    await response.text();
+
+
+                if (!response.ok) {
+
+                    alert(html);
+
+                    return;
+
+                }
+
+
+                document.open();
+
+                document.write(html);
+
+                document.close();
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to load profile."
+                );
+
+            }
+
+        }
+    );
+
+
+    async function loadDashboard() {
+
+        const isAdmin =
+            await checkAdminAccess();
+
+
+        if (!isAdmin) {
+
+            return;
+
+        }
+
+
+        getProperties();
+
+        getUsers();
+
+    }
+
+
+    loadDashboard();
+
+</script>
+
+</body>
+</html>

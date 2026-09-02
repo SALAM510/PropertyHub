@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/postproperties.css">
+</head>
+<body>
+
+    <%- include("../partials/navbar") %>
+
+        <div id="post-property">
+
+            <div id="form-heading">
+                <h1>Post Your Property</h1>
+
+                <p>
+                    Add your property details and make it available
+                    to potential clients.
+                </p>
+            </div>
+
+            <div id="message"></div>
+
+            <form id="propertyForm" action="/properties" method="POST" enctype="multipart/form-data">
+
+                <div id="images">
+                    <h3>Property Images</h3>
+                    <p>
+                        <p>
+                            Upload 6 images of your property.
+                        </p>
+                    </p>
+                    <input type="file" name="images" accept="image/*" multiple required>
+                </div>
+
+                <div id="property-information">
+
+                    <div class="form-group">
+
+                        <label>Listing Type</label>
+
+                        <select name="listingType" required>
+
+                            <option value="">Select Listing Type</option>
+
+                            <option value="buy">For Sale</option>
+
+                            <option value="rent">For Rent</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Property Title</label>
+
+                        <input type="text" name="title" placeholder="Enter property title" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Property Type</label>
+
+                        <input type="text" name="propertyType" placeholder="Enter property type" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Price</label>
+
+                        <input type="number" name="price" placeholder="Enter property price" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Address</label>
+
+                        <input type="text" name="address" placeholder="Enter property address" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>City</label>
+
+                        <input type="text" name="city" placeholder="Enter city" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>State</label>
+
+                        <input type="text" name="state" placeholder="Enter state" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Zip Code</label>
+
+                        <input type="text" name="zipcode" placeholder="Enter zip code" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+                    
+                        <label>WhatsApp Number</label>
+                    
+                        <input type="text" name="whatsapp" placeholder="Enter WhatsApp number" required>
+                    
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Bedrooms</label>
+
+                        <input type="number" name="bedrooms" placeholder="Enter number of bedrooms" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Bathrooms</label>
+
+                        <input type="number" name="bathrooms" placeholder="Enter number of bathrooms" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Square Footage</label>
+
+                        <input type="number" name="squarefootage" placeholder="Enter square footage" required>
+
+                    </div>
+
+                </div>
+
+
+                <div id="description">
+
+                    <label>Property Description</label>
+
+                    <textarea name="description" rows="8" placeholder="Write a detailed description of the property..."
+                        required></textarea>
+
+                </div>
+
+
+                <button type="submit">
+                    Post Property
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <%- include("../partials/footer") %>
+
+<script>
+
+    const propertyForm = document.getElementById("propertyForm");
+
+    const message = document.getElementById("message");
+
+
+    propertyForm.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+
+        const token = localStorage.getItem("token");
+
+        const imageInput = document.querySelector('input[name="images"]');
+
+        if (imageInput.files.length !== 6) {
+            message.textContent = "Please select exactly 6 property images.";
+            message.className = "error";
+            return;
+        }
+
+
+        const formData = new FormData(propertyForm);
+
+        try {
+
+            const response = await fetch("/properties", {
+
+                method: "POST",
+
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+
+                body: formData
+
+            });
+
+
+            const data = await response.json();
+
+
+            if (response.ok) {
+
+                propertyForm.reset();
+
+                localStorage.removeItem("propertyFormData");
+
+                message.textContent = data.message;
+
+                message.className = "success";
+
+            } else {
+
+                message.textContent = data.message;
+
+                message.className = "error";
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent = "Unable to post property.";
+
+            message.className = "error";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

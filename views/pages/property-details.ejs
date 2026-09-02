@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/propertydetails.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+        <a href="/properties" id="back-button">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Properties
+
+        </a>
+
+
+        <div id="property-details">
+
+
+            <div id="property-images">
+                <% property.images.forEach(function(image) { %>
+                    <img src="<%= image %>" alt="<%= property.title %>" class="property-image">
+                    <% }) %>
+            </div>
+            
+            <div id="image-fullscreen">
+                <button type="button" id="close-image">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            
+                <img id="fullscreen-image" src="" alt="<%= property.title %>">
+            </div>
+
+
+            <div id="property-info">
+
+
+                <div id="property-title">
+
+                    <div>
+
+                        <h1>
+                            <%= property.title %>
+                        </h1>
+
+                        <p>
+                            <%= property.city %>,
+                                <%= property.state %>
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" id="favorite-button">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                        <span>
+                            Favorite
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <h2>
+
+                    #<%= Number(property.price).toLocaleString() %>
+
+                </h2>
+
+
+                <div id="property-features">
+
+
+                    <p>
+
+                        <strong>Property Type:</strong>
+
+                        <%= property.propertyType %>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>Address:</strong>
+
+                        <%= property.address %>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>Bathrooms:</strong>
+
+                        <%= property.bathrooms %>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>Bedrooms:</strong>
+
+                        <%= property.bedrooms %>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>Square Footage:</strong>
+
+                        <%= property.squarefootage %>
+
+                    </p>
+
+                    <p>
+                        <strong>WhatsApp:</strong>
+                        <%= property.whatsapp %>
+                    </p>
+
+                </div>
+
+
+                <div id="description">
+
+                    <h2>
+                        Property Description
+                    </h2>
+
+                    <p>
+                        <%= property.description %>
+                    </p>
+
+                </div>
+
+
+                <div id="property-posted">
+
+                    <p>
+
+                        <strong>Posted by:</strong>
+
+                        <% if (owner) { %>
+
+                            <%= owner.name %>
+
+                                <% } else { %>
+
+                                    Property Owner
+
+                                    <% } %>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>Added on:</strong>
+
+                        <%= property.createdAt.toLocaleDateString() %>
+
+                    </p>
+
+                </div>
+
+
+                <div id="inquiry-section">
+
+                    <h2>
+                        Send an Inquiry
+                    </h2>
+
+                    <p>
+                        Interested in this property?
+                        Send a message to the property owner.
+                    </p>
+
+
+                    <form id="inquiry-form">
+
+
+                        <input type="email" id="inquiry-email" placeholder="Enter your email" required>
+
+
+                        <input type="text" id="inquiry-whatsapp" placeholder="Enter your WhatsApp number" required>
+
+
+                        <textarea id="inquiry-message" placeholder="Write your message here..." required></textarea>
+
+
+                        <button type="submit">
+
+                            <i class="fa-solid fa-paper-plane"></i>
+
+                            Send Inquiry
+
+                        </button>
+
+
+                    </form>
+
+
+                    <p id="inquiry-message-status"></p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <%- include("../partials/footer") %>
+
+<script>
+
+
+    const userToken =
+        localStorage.getItem("token");
+
+
+    const propertyId =
+        "<%= property._id %>";
+
+
+    const inquiryForm =
+        document.getElementById("inquiry-form");
+
+
+    const inquiryMessage =
+        document.getElementById("inquiry-message");
+
+
+    const inquiryEmail =
+        document.getElementById("inquiry-email");
+
+
+    const inquiryWhatsapp =
+        document.getElementById("inquiry-whatsapp");
+
+
+    const inquiryStatus =
+        document.getElementById(
+            "inquiry-message-status"
+        );
+
+
+    inquiryForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            if (!userToken) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+
+            }
+
+
+            const email =
+                inquiryEmail.value.trim();
+
+
+            const whatsapp =
+                inquiryWhatsapp.value.trim();
+
+
+            const message =
+                inquiryMessage.value.trim();
+
+
+            if (!email || !whatsapp || !message) {
+
+                inquiryStatus.textContent =
+                    "Please fill in all fields.";
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/inquiry",
+                        {
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " + userToken
+
+                            },
+
+                            body: JSON.stringify({
+
+                                propertyId:
+                                    propertyId,
+
+                                email:
+                                    email,
+
+                                whatsapp:
+                                    whatsapp,
+
+                                message:
+                                    message
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    inquiryStatus.textContent =
+                        data.message;
+
+                    return;
+
+                }
+
+
+                inquiryStatus.textContent =
+                    data.message;
+
+
+                inquiryEmail.value = "";
+
+                inquiryWhatsapp.value = "";
+
+                inquiryMessage.value = "";
+
+
+            } catch (error) {
+
+                console.error(
+                    "INQUIRY ERROR:",
+                    error
+                );
+
+
+                inquiryStatus.textContent =
+                    "Unable to send inquiry. Please try again.";
+
+            }
+
+        }
+    );
+
+
+    const favoriteButton =
+        document.getElementById(
+            "favorite-button"
+        );
+
+
+    const favoriteIcon =
+        favoriteButton.querySelector("i");
+
+
+    const favoriteText =
+        favoriteButton.querySelector("span");
+
+
+    function showFavorited() {
+
+        favoriteButton.classList.add(
+            "active"
+        );
+
+
+        favoriteIcon.classList.remove(
+            "fa-regular"
+        );
+
+
+        favoriteIcon.classList.add(
+            "fa-solid"
+        );
+
+
+        favoriteText.textContent =
+            "Favorited";
+
+    }
+
+
+    function showFavorite() {
+
+        favoriteButton.classList.remove(
+            "active"
+        );
+
+
+        favoriteIcon.classList.remove(
+            "fa-solid"
+        );
+
+
+        favoriteIcon.classList.add(
+            "fa-regular"
+        );
+
+
+        favoriteText.textContent =
+            "Favorite";
+
+    }
+
+
+    async function checkFavorite() {
+
+        if (!userToken) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/favorite",
+                    {
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                "Bearer " + userToken
+
+                        }
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (response.status === 404) {
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                console.error(
+                    data.message
+                );
+
+                return;
+
+            }
+
+
+            const favorites =
+                data.favorites || [];
+
+
+            const isFavorite =
+                favorites.some(
+                    function (favorite) {
+
+                        return (
+
+                            favorite.property.toString() ===
+                            propertyId
+
+                        );
+
+                    }
+                );
+
+
+            if (isFavorite) {
+
+                showFavorited();
+
+            } else {
+
+                showFavorite();
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "CHECK FAVORITE ERROR:",
+                error
+            );
+
+        }
+
+    }
+
+
+    favoriteButton.addEventListener(
+        "click",
+        async function () {
+
+            if (!userToken) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+
+            }
+
+
+            const isFavorite =
+                favoriteButton.classList.contains(
+                    "active"
+                );
+
+
+            try {
+
+                let response;
+
+
+                if (!isFavorite) {
+
+                    response =
+                        await fetch(
+                            "/favorite",
+                            {
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "Authorization":
+                                        "Bearer " + userToken
+
+                                },
+
+                                body: JSON.stringify({
+
+                                    propertyId:
+                                        propertyId
+
+                                })
+
+                            }
+                        );
+
+                } else {
+
+                    response =
+                        await fetch(
+                            "/favorite/" +
+                            propertyId,
+                            {
+                                method: "DELETE",
+
+                                headers: {
+
+                                    "Authorization":
+                                        "Bearer " + userToken
+
+                                }
+
+                            }
+                        );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message
+                    );
+
+                    return;
+
+                }
+
+
+                if (!isFavorite) {
+
+                    showFavorited();
+
+                } else {
+
+                    showFavorite();
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "FAVORITE ERROR:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to update favorite. Please try again."
+                );
+
+            }
+
+        }
+    );
+
+
+    checkFavorite();
+
+    const propertyImages =
+        document.querySelectorAll(".property-image");
+
+    const imageFullscreen =
+        document.getElementById("image-fullscreen");
+
+    const fullscreenImage =
+        document.getElementById("fullscreen-image");
+
+    const closeImage =
+        document.getElementById("close-image");
+
+    propertyImages.forEach(function (image) {
+        image.addEventListener("click", function () {
+            fullscreenImage.src = image.src;
+            imageFullscreen.classList.add("show");
+        });
+    });
+
+    closeImage.addEventListener("click", function () {
+        imageFullscreen.classList.remove("show");
+    });
+
+    imageFullscreen.addEventListener("click", function (event) {
+        if (event.target === imageFullscreen) {
+            imageFullscreen.classList.remove("show");
+        }
+    });
+
+</script>
+
+</body>
+</html>

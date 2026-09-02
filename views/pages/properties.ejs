@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/properties.css">
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+   <div id="properties-page">
+
+        <div id="properties-heading">
+
+            <h1>Properties</h1>
+
+            <p>
+                Find a property that fits your needs.
+            </p>
+
+            </div>
+
+
+    <div id="property-list">
+
+        <% properties.forEach(property=> { %>
+
+            <div class="property">
+
+                <img src="<%= property.images[0] %>" alt="<%= property.title %>">
+
+
+    <div class="property-info">
+
+        <% if (property.listingType==="rent" ) { %>
+
+            <p class="listing-type">
+                FOR RENT
+            </p>
+
+        <% } else if (property.listingType==="buy" ) { %>
+
+            <p class="listing-type">
+                FOR SALE
+            </p>
+
+        <% } %>
+
+
+            <h2>
+                <%= property.title %>
+            </h2>
+
+            <p class="location">
+
+                <%= property.city %>,
+                <%= property.state %>
+
+            </p>
+
+            <strong>
+
+                #<%= property.price.toLocaleString() %>
+
+            </strong>
+
+
+            <p class="property-details">
+
+                <%= property.bedrooms %> Bedrooms
+
+                <%= property.bathrooms %> Bathrooms
+
+            </p>
+
+            <p class="description">
+
+                <%= property.description.substring(0, 100) %>...
+
+            </p>
+
+
+            <a href="/properties/<%= property._id %>" class="see-more">
+                See More
+            </a>
+
+            </div>
+
+            </div>
+
+                    <% }) %>
+
+            </div>
+
+        </div>
+
+
+        <%- include("../partials/footer") %>
+
+</body>
+</html>

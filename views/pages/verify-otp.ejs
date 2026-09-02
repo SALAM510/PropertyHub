@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/verifyotp.css">
+</head>
+<body>
+<div id="verify-page">
+
+    <div class="verify-container">
+
+        <h1>Verify OTP</h1>
+
+        <p>
+            We sent a verification code to
+            <span class="email-text">
+                <%= email %>
+            </span>
+        </p>
+
+        <form action="/auth/verifyotp" method="POST">
+
+            <input type="hidden" name="email" value="<%= email %>">
+
+            <div class="input-group">
+
+                <label for="otp">
+                    Enter OTP
+                </label>
+
+                <input type="text" id="otp" name="otp" placeholder="Enter your 6-digit OTP" required>
+
+            </div>
+
+            <button type="submit">
+                Verify OTP
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

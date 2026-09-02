@@ -1,0 +1,190 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.85),
+        rgba(255, 255, 255, 0.85)
+    ), url("/images/image1.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+#contact {
+    width: 700px;
+    max-width: 90%;
+    margin: 110px auto 60px;
+    padding: 45px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+#contact-text {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+#contact-text h1 {
+    font-size: 40px;
+    margin: 15px 0;
+    color: black;
+}
+
+#contact-text p {
+    color: black;
+}
+
+#contact-form {
+    width: 600px;
+    max-width: 100%;
+    margin: auto;
+    padding: 50px;
+    border-radius: 20px;
+}
+
+#contact-form h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: black;
+}
+
+label {
+    color: black;
+}
+
+#contact-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+#contact-form input {
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    height: 50px;
+}
+
+#contact-form textarea {
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 130px;
+    resize: none;
+}
+
+#contact-form button {
+    padding: 13px 25px;
+    border: none;
+    border-radius: 5px;
+    background: #1e3a8a;
+    color: white;
+    cursor: pointer;
+}
+
+#contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin-top: 60px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#contact-info div {
+    width: 200px;
+}
+
+#contact-info i {
+    font-size: 30px;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+
+#contact-info h3 {
+    margin-bottom: 8px;
+    color: black;
+}
+
+#contact-info p {
+    color: black;
+}
+
+@media (max-width: 768px) {
+
+    #contact {
+        width: 90%;
+        max-width: 90%;
+        margin: 100px auto 40px;
+        padding: 30px 20px;
+    }
+
+    #contact-text {
+        margin-bottom: 35px;
+    }
+
+    #contact-text h1 {
+        font-size: 32px;
+        margin: 12px 0;
+    }
+
+    #contact-text p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    #contact-form {
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    #contact-form h2 {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+
+    #contact-form input {
+        width: 100%;
+        height: 48px;
+        font-size: 15px;
+    }
+
+    #contact-form textarea {
+        width: 100%;
+        height: 120px;
+        font-size: 15px;
+    }
+
+    #contact-form button {
+        width: 100%;
+        padding: 13px;
+        font-size: 15px;
+    }
+
+    #contact-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 35px;
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+
+    #contact-info div {
+        width: 100%;
+    }
+
+    #contact-info i {
+        font-size: 28px;
+    }
+
+    #contact-info p {
+        font-size: 14px;
+    }
+}

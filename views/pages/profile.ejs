@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <div id="profile-page">
+
+        <a href="/" id="home-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Home
+        </a>
+
+        <div id="profile-box">
+
+            <h1>My Profile</h1>
+
+            <div class="profile-item">
+
+                <label>Name</label>
+
+                <p id="user-name">
+                    Loading...
+                </p>
+
+            </div>
+
+            <div class="profile-item">
+
+                <label>Email</label>
+
+                <p id="user-email">
+                    Loading...
+                </p>
+
+            </div>
+
+            <div class="profile-item">
+
+                <label>Phone</label>
+
+                <p id="user-phone">
+                    Loading...
+                </p>
+
+            </div>
+
+            <button id="logoutBtn">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+<script>
+
+    const token = localStorage.getItem("token");
+
+    const userName = document.getElementById("user-name");
+
+    const userEmail = document.getElementById("user-email");
+
+    const userPhone = document.getElementById("user-phone");
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+
+    if (!token) {
+
+        window.location.href = "/login";
+
+    }
+
+
+    async function getProfile() {
+
+        try {
+
+            const response = await fetch("/auth/profile", {
+
+                method: "GET",
+
+                headers: {
+
+                    "Authorization": "Bearer " + token
+
+                }
+
+            });
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+
+                localStorage.removeItem("token");
+
+                window.location.href = "/login";
+
+                return;
+
+            }
+
+
+            userName.textContent = data.user.name;
+
+            userEmail.textContent = data.user.email;
+
+            userPhone.textContent = data.user.phone;
+
+
+        } catch (error) {
+
+            console.error("PROFILE ERROR:", error);
+
+            userName.textContent = "Unable to load profile";
+
+            userEmail.textContent = "Unable to load profile";
+
+            userPhone.textContent = "Unable to load profile";
+
+        }
+
+    }
+
+
+    logoutBtn.addEventListener("click", function () {
+
+        localStorage.removeItem("token");
+
+        window.location.href = "/";
+
+    });
+
+
+    getProfile();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-image:linear-gradient(rgba(255, 255, 255, 0.85),rgba(255, 255, 255, 0.85)),url("/images/image1.jpg");
+    background-size: cover;
+    background-position: center;}
+
+#verify-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 40px;
+}
+
+.verify-container {
+    width: 400px;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.verify-container h1 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+.verify-container p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #1e3a8a;
+}
+
+.verify-container button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 6px;
+    background: #1e3a8a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.verify-container button:hover {
+    background: #162d6b;
+}
+
+.email-text {
+    color: #1e3a8a;
+    font-weight: 600;
+}

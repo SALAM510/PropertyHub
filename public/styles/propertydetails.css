@@ -1,0 +1,420 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: #f5f7fb;
+}
+
+#back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 30px 60px 20px;
+    text-decoration: none;
+    padding: 10px 16px;
+    background: #1e3a8a;
+    color: white;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#back-button i {
+    font-size: 16px;
+}
+
+#back-button:hover {
+    background: #162d6b;
+}
+
+#property-details {
+    width: 1100px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+#property-images {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+#property-images img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#property-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#property-title h1 {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+#property-title p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+#favorite-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border: 1px solid #1e3a8a;
+    border-radius: 6px;
+    background: white;
+    color: #1e3a8a;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#favorite-button i {
+    font-size: 16px;
+}
+
+#favorite-button:hover {
+    background: #1e3a8a;
+    color: white;
+}
+
+#favorite-button.active {
+    background: #1e3a8a;
+    color: white;
+}
+
+#property-info > h2 {
+    color: #1e3a8a;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+#property-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 60px;
+    row-gap: 15px;
+    margin-bottom: 30px;
+    padding: 0;
+}
+
+#property-features p {
+    color: #555;
+    font-size: 14px;
+    margin: 0;
+}
+
+#property-features strong {
+    color: #222;
+}
+
+#description {
+    margin-bottom: 25px;
+}
+
+#description h2 {
+    color: #222;
+    margin-bottom: 15px;
+}
+
+#description p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+#property-posted {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 0;
+    margin-bottom: 35px;
+}
+
+#property-posted p {
+    color: #555;
+    font-size: 14px;
+    margin: 0;
+}
+
+#property-posted strong {
+    color: black;
+}
+
+#inquiry-section {
+    margin-top: 35px;
+    padding: 30px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+#inquiry-section h2 {
+    margin-bottom: 10px;
+    color: #1e3a8a;
+}
+
+#inquiry-section > p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+#inquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#inquiry-email,
+#inquiry-whatsapp {
+    width: 100%;
+    height: 48px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    background: white;
+}
+
+#inquiry-email:focus,
+#inquiry-whatsapp:focus {
+    border-color: #1e3a8a;
+}
+
+#inquiry-message {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    resize: none;
+    background: white;
+}
+
+#inquiry-message:focus {
+    border-color: #1e3a8a;
+}
+
+#inquiry-form button {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #1e3a8a;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#inquiry-form button:hover {
+    background: #162d6b;
+}
+
+#inquiry-message-status {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+#image-fullscreen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 30px;
+}
+
+#image-fullscreen.show {
+    display: flex;
+}
+
+#fullscreen-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+#close-image {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: #1e3a8a;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+#close-image:hover {
+    background: #1e3a8a;
+    color: white;
+}
+
+@media (max-width: 1150px) {
+
+    #property-details {
+        width: 90%;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    #back-button {
+        margin: 20px;
+        font-size: 14px;
+    }
+
+    #property-details {
+        width: 92%;
+        padding: 20px;
+        margin: 30px auto 50px;
+    }
+
+    #property-images {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    #property-images img,
+    #property-images img:first-child {
+        width: 100%;
+        height: 220px;
+    }
+
+    #property-title {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #property-title h1 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+    #property-title p {
+        font-size: 14px;
+    }
+
+    #favorite-button {
+        width: 100%;
+    }
+
+    #property-info > h2 {
+        font-size: 23px;
+        margin-bottom: 20px;
+    }
+
+    #property-features {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    #description h2 {
+        font-size: 22px;
+    }
+
+    #description p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    #property-posted {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    #inquiry-section {
+        padding: 20px;
+    }
+
+    #inquiry-section h2 {
+        font-size: 22px;
+    }
+
+    #inquiry-section > p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    #inquiry-form button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #image-fullscreen {
+        padding: 20px;
+    }
+
+    #fullscreen-image {
+        max-width: 95%;
+        max-height: 85%;
+    }
+
+}
+
+@media (max-width: 400px) {
+
+    #property-details {
+        width: 94%;
+        padding: 15px;
+    }
+
+    #back-button {
+        margin: 15px;
+    }
+
+    #property-images img,
+    #property-images img:first-child {
+        height: 200px;
+    }
+
+    #property-title h1 {
+        font-size: 25px;
+    }
+
+    #inquiry-section {
+        padding: 15px;
+    }
+
+}

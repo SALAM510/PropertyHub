@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/navbar.css">
+</head>
+<body>
+
+    <div id="navbar">
+
+        <div id="logo">
+            <h3>PropertyHub</h3>
+        </div>
+
+        <nav id="desktop-nav">
+
+            <a href="/">Home</a>
+
+            <a href="/about">AboutUs</a>
+
+            <a href="/properties">Properties</a>
+
+            <a href="/contact">ContactUs</a>
+
+        </nav>
+
+        <div id="buttons">
+
+            <a href="/post-properties" id="post-property-btn">
+                POST PROPERTY
+            </a>
+
+            <a href="/my-properties" id="my-properties-btn">
+                My Properties
+            </a>
+
+            <a href="/profile" id="profile-btn">
+                Profile
+            </a>
+
+            <a href="/register" id="signup">
+                Sign Up
+            </a>
+
+            <a href="/login" id="login">
+                Login
+            </a>
+
+        </div>
+
+        <button id="hamburger">
+            ☰
+        </button>
+
+    </div>
+
+    <div id="mobile-menu">
+
+        <nav>
+
+            <a href="/">Home</a>
+
+            <a href="/about">AboutUs</a>
+
+            <a href="/properties">Properties</a>
+
+            <a href="/contact">ContactUs</a>
+
+        </nav>
+
+        <div id="mobile-buttons">
+
+            <a href="/post-properties" id="mobile-post-property-btn">
+                POST PROPERTY
+            </a>
+
+            <a href="/my-properties" id="mobile-my-properties-btn">
+                My Properties
+            </a>
+
+            <a href="/profile" id="mobile-profile-btn">
+                Profile
+            </a>
+
+            <a href="/register" id="mobile-signup">
+                Sign Up
+            </a>
+
+            <a href="/login" id="mobile-login">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+<script>
+
+    const token = localStorage.getItem("token");
+
+    const postPropertyBtn =
+        document.getElementById("post-property-btn");
+
+    const myPropertiesBtn =
+        document.getElementById("my-properties-btn");
+
+    const profileBtn =
+        document.getElementById("profile-btn");
+
+    const signup =
+        document.getElementById("signup");
+
+    const login =
+        document.getElementById("login");
+
+
+    const mobilePostPropertyBtn =
+        document.getElementById("mobile-post-property-btn");
+
+    const mobileMyPropertiesBtn =
+        document.getElementById("mobile-my-properties-btn");
+
+    const mobileProfileBtn =
+        document.getElementById("mobile-profile-btn");
+
+    const mobileSignup =
+        document.getElementById("mobile-signup");
+
+    const mobileLogin =
+        document.getElementById("mobile-login");
+
+
+    if (token) {
+
+        postPropertyBtn.style.display = "inline-block";
+        myPropertiesBtn.style.display = "inline-block";
+        profileBtn.style.display = "inline-block";
+
+        signup.style.display = "none";
+        login.style.display = "none";
+
+        mobilePostPropertyBtn.style.display = "block";
+        mobileMyPropertiesBtn.style.display = "block";
+        mobileProfileBtn.style.display = "block";
+
+        mobileSignup.style.display = "none";
+        mobileLogin.style.display = "none";
+
+    } else {
+
+        postPropertyBtn.style.display = "none";
+        myPropertiesBtn.style.display = "none";
+        profileBtn.style.display = "none";
+
+        signup.style.display = "inline-block";
+        login.style.display = "inline-block";
+
+        mobilePostPropertyBtn.style.display = "none";
+        mobileMyPropertiesBtn.style.display = "none";
+        mobileProfileBtn.style.display = "none";
+
+        mobileSignup.style.display = "block";
+        mobileLogin.style.display = "block";
+
+    }
+
+
+    const hamburger =
+        document.getElementById("hamburger");
+
+    const mobileMenu =
+        document.getElementById("mobile-menu");
+
+
+    hamburger.addEventListener("click", function () {
+
+        if (mobileMenu.style.display === "block") {
+
+            mobileMenu.style.display = "none";
+
+        } else {
+
+            mobileMenu.style.display = "block";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

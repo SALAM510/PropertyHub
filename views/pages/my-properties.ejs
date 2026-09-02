@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub</title>
+    <link rel="stylesheet" href="/styles/my-properties.css">
+</head>
+<body>
+
+    <%- include("../partials/navbar") %>
+
+        <div id="my-properties-page">
+
+            <div id="my-properties-heading">
+
+                <h1>
+                    My Properties
+                </h1>
+
+                <p>
+                    Manage your properties, favorites and inquiries
+                </p>
+
+            </div>
+
+            <div id="posted-properties">
+
+                <h2>
+                    My Posted Properties
+                </h2>
+
+                <div id="property-list">
+
+                    <p id="loading">
+                        Loading your properties...
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div id="favorites-section">
+
+                <h2>
+                    My Favorites
+                </h2>
+
+                <div id="favorites-list">
+
+                    <p id="favorites-loading">
+                        Loading your favorites...
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div id="inquiries-section">
+
+                <h2>
+                    My Inquiries
+                </h2>
+
+                <div id="inquiries-list">
+
+                    <p id="inquiries-loading">
+                        Loading your inquiries...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+            <%- include("../partials/footer") %>
+
+<script>
+
+    const userToken =
+        localStorage.getItem("token");
+
+    if (!userToken) {
+
+        window.location.href = "/login";
+
+    }
+
+    async function getMyProperties() {
+
+        const propertyList =
+            document.getElementById(
+                "property-list"
+            );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/properties/my-properties",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization":
+                                "Bearer " +
+                                userToken
+                        }
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to fetch properties"
+                );
+
+            }
+
+            propertyList.innerHTML = "";
+
+            const properties =
+                data.properties;
+
+            if (
+                !properties ||
+                properties.length === 0
+            ) {
+
+                propertyList.innerHTML = `
+                        <p id="no-properties">
+                            You have not posted any properties yet.
+                        </p>
+                    `;
+
+                return;
+
+            }
+
+            for (
+                const property
+                of properties
+            ) {
+
+                const formattedPrice =
+                    Number(
+                        property.price
+                    ).toLocaleString();
+
+                propertyList.innerHTML += `
+                        <div class="property-card">
+
+                            <div class="property-image">
+
+                                <img
+                                    src="${property.images[0]}"
+                                    alt="${property.title}"
+                                >
+
+                            </div>
+
+                            <div class="property-content">
+
+                                <h2>
+                                    ${property.title}
+                                </h2>
+
+                                <p class="location">
+
+                                    ${property.city},
+                                    ${property.state}
+
+                                </p>
+
+                                <p class="price">
+
+                                    ₦${formattedPrice}
+
+                                </p>
+
+                                <p class="status">
+
+                                    Status:
+
+                                    <span
+                                        class="${property.status}"
+                                    >
+                                        ${property.status}
+                                    </span>
+
+                                </p>
+
+                                <div class="property-buttons">
+
+                                    <button
+                                        class="update-btn"
+                                        onclick="updateProperty('${property._id}')"
+                                    >
+                                        Update
+                                    </button>
+
+                                    <button
+                                        class="delete-btn"
+                                        onclick="deleteProperty('${property._id}')"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    `;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "PROPERTIES ERROR:",
+                error
+            );
+
+            propertyList.innerHTML = `
+                    <p id="error-message">
+                        Unable to load your properties.
+                    </p>
+                `;
+
+        }
+
+    }
+
+    function updateProperty(propertyId) {
+
+        window.location.href =
+            "/update-property/" +
+            propertyId;
+
+    }
+
+    async function deleteProperty(propertyId) {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/properties/" +
+                    propertyId,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization":
+                                "Bearer " +
+                                userToken
+                        }
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to delete property"
+                );
+
+            }
+
+            getMyProperties();
+
+            getMyInquiries();
+
+        } catch (error) {
+
+            console.error(
+                "DELETE PROPERTY ERROR:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to delete property"
+            );
+
+        }
+
+    }
+
+    async function getMyFavorites() {
+
+        const favoritesList =
+            document.getElementById(
+                "favorites-list"
+            );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/favorite",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization":
+                                "Bearer " +
+                                userToken
+                        }
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (response.status === 404) {
+
+                favoritesList.innerHTML = `
+                        <p id="no-favorites">
+                            You have no favorite properties yet.
+                        </p>
+                    `;
+
+                return;
+
+            }
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Server error"
+                );
+
+            }
+
+            if (
+                !data.favorites ||
+                data.favorites.length === 0
+            ) {
+
+                favoritesList.innerHTML = `
+                        <p id="no-favorites">
+                            You have no favorite properties yet.
+                        </p>
+                    `;
+
+                return;
+
+            }
+
+            favoritesList.innerHTML = "";
+
+            let hasValidFavorite = false;
+
+            for (
+                const favorite
+                of data.favorites
+            ) {
+
+                const favoriteId =
+                    favorite._id.toString();
+
+                const propertyId =
+                    favorite.property.toString();
+
+                try {
+
+                    const propertyResponse =
+                        await fetch(
+                            "/properties/details/" +
+                            propertyId
+                        );
+
+                    const propertyData =
+                        await propertyResponse.json();
+
+                    if (
+                        propertyResponse.status === 404
+                    ) {
+
+                        continue;
+
+                    }
+
+                    if (!propertyResponse.ok) {
+
+                        continue;
+
+                    }
+
+                    const property =
+                        propertyData.property;
+
+                    if (!property) {
+
+                        continue;
+
+                    }
+
+                    hasValidFavorite = true;
+
+                    const formattedPrice =
+                        Number(
+                            property.price
+                        ).toLocaleString();
+
+                    favoritesList.innerHTML += `
+                            <div
+                                class="property-card"
+                                id="favorite-${favoriteId}"
+                            >
+
+                                <div class="property-image">
+
+                                    <img
+                                        src="${property.images[0]}"
+                                        alt="${property.title}"
+                                    >
+
+                                </div>
+
+                                <div class="property-content">
+
+                                    <h2>
+                                        ${property.title}
+                                    </h2>
+
+                                    <p class="location">
+
+                                        ${property.city},
+                                        ${property.state}
+
+                                    </p>
+
+                                    <p class="price">
+
+                                        ₦${formattedPrice}
+
+                                    </p>
+
+                                    <div class="favorite-buttons">
+
+                                        <button
+                                            class="view-btn"
+                                            onclick="viewProperty('${propertyId}')"
+                                        >
+                                            View Property
+                                        </button>
+
+                                        <button
+                                            class="remove-favorite-btn"
+                                            onclick="removeFavorite('${favoriteId}')"
+                                        >
+                                            Remove
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                } catch (error) {
+
+                    console.error(
+                        "PROPERTY FAVORITE ERROR:",
+                        error
+                    );
+
+                    continue;
+
+                }
+
+            }
+
+            if (!hasValidFavorite) {
+
+                favoritesList.innerHTML = `
+                        <p id="no-favorites">
+                            You have no favorite properties yet.
+                        </p>
+                    `;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "FAVORITES ERROR:",
+                error
+            );
+
+            favoritesList.innerHTML = `
+                    <p id="favorites-error">
+                        Unable to load your favorites.
+                    </p>
+                `;
+
+        }
+
+    }
+
+    function viewProperty(propertyId) {
+
+        window.location.href =
+            "/properties/" +
+            propertyId;
+
+    }
+
+    async function removeFavorite(id) {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/favorite/" +
+                    id,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization":
+                                "Bearer " +
+                                userToken
+                        }
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to remove favorite"
+                );
+
+            }
+
+            const favoriteCard =
+                document.getElementById(
+                    "favorite-" +
+                    id
+                );
+
+            if (favoriteCard) {
+
+                favoriteCard.remove();
+
+            }
+
+            const favoritesList =
+                document.getElementById(
+                    "favorites-list"
+                );
+
+            const remainingFavorites =
+                favoritesList.querySelectorAll(
+                    ".property-card"
+                );
+
+            if (
+                remainingFavorites.length === 0
+            ) {
+
+                favoritesList.innerHTML = `
+                        <p id="no-favorites">
+                            You have no favorite properties yet.
+                        </p>
+                    `;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "REMOVE FAVORITE ERROR:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to remove favorite"
+            );
+
+        }
+
+    }
+
+    async function getMyInquiries() {
+
+        const inquiriesList =
+            document.getElementById(
+                "inquiries-list"
+            );
+
+        try {
+
+            const propertyResponse =
+                await fetch(
+                    "/properties/my-properties",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization":
+                                "Bearer " +
+                                userToken
+                        }
+                    }
+                );
+
+            const propertyData =
+                await propertyResponse.json();
+
+            if (!propertyResponse.ok) {
+
+                throw new Error(
+                    propertyData.message ||
+                    "Unable to fetch properties"
+                );
+
+            }
+
+            inquiriesList.innerHTML = "";
+
+            let hasInquiries = false;
+
+            for (
+                const property
+                of propertyData.properties
+            ) {
+
+                const inquiryResponse =
+                    await fetch(
+                        "/inquiry/property/" +
+                        property._id,
+                        {
+                            method: "GET",
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    userToken
+                            }
+                        }
+                    );
+
+                const inquiryData =
+                    await inquiryResponse.json();
+
+                if (!inquiryResponse.ok) {
+
+                    continue;
+
+                }
+
+                const inquiries =
+                    inquiryData.inquiries;
+
+                if (
+                    !inquiries ||
+                    inquiries.length === 0
+                ) {
+
+                    continue;
+
+                }
+
+                hasInquiries = true;
+
+                for (
+                    const inquiry
+                    of inquiries
+                ) {
+
+                    inquiriesList.innerHTML += `
+                            <div class="inquiry-card">
+
+                                <h3>
+                                    ${property.title}
+                                </h3>
+
+                                <p>
+
+                                    <strong>
+                                        Email:
+                                    </strong>
+
+                                    ${inquiry.email}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        WhatsApp:
+                                    </strong>
+
+                                    ${inquiry.whatsapp}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        Message:
+                                    </strong>
+
+                                    ${inquiry.message}
+
+                                </p>
+
+                                <p>
+
+                                    <strong>
+                                        Date:
+                                    </strong>
+
+                                    ${new Date(
+                        inquiry.createdAt
+                    ).toLocaleDateString()}
+
+                                </p>
+
+                            </div>
+                        `;
+
+                }
+
+            }
+
+            if (!hasInquiries) {
+
+                inquiriesList.innerHTML = `
+                        <p id="no-inquiries">
+                            You have no inquiries yet.
+                        </p>
+                    `;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "INQUIRIES ERROR:",
+                error
+            );
+
+            inquiriesList.innerHTML = `
+                    <p id="inquiries-error">
+                        Unable to load your inquiries.
+                    </p>
+                `;
+
+        }
+
+    }
+
+    getMyProperties();
+
+    getMyFavorites();
+
+    getMyInquiries();
+
+</script>
+
+</body>
+</html>
