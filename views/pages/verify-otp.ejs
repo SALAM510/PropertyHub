@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/verifyotp.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
 <body>
+
+<%- include("../partials/navbar") %>
+
 <div id="verify-page">
-
     <div class="verify-container">
-
         <h1>Verify OTP</h1>
 
         <p>
@@ -20,29 +22,31 @@
             </span>
         </p>
 
-        <form action="/auth/verifyotp" method="POST">
+        <% if (error) { %>
+            <p id="error-message">
+                <%= error %>
+            </p>
+            <% } %>
 
-            <input type="hidden" name="email" value="<%= email %>">
+                <form action="/auth/verifyotp" method="POST">
+                    <input type="hidden" name="email" value="<%= email %>">
 
-            <div class="input-group">
+                    <div class="input-group">
+                        <label for="otp">
+                            Enter OTP
+                        </label>
 
-                <label for="otp">
-                    Enter OTP
-                </label>
+                        <input type="text" id="otp" name="otp" placeholder="Enter your 6-digit OTP" required>
+                    </div>
 
-                <input type="text" id="otp" name="otp" placeholder="Enter your 6-digit OTP" required>
-
-            </div>
-
-            <button type="submit">
-                Verify OTP
-            </button>
-
-        </form>
-
+                    <button type="submit">
+                        Verify OTP
+                    </button>
+                </form>
     </div>
-
 </div>
+
+<%- include("../partials/footer") %>
 
 </body>
 </html>

@@ -44,7 +44,7 @@ const approveProperty = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "property approved successfully",
+      message: "Property approved successfully",
       property,
     });
   } catch (error) {
@@ -66,14 +66,15 @@ const rejectProperty = async (req, res) => {
         new: true,
       },
     );
+
     if (!property) {
       return res.status(404).json({
-        message: "property not found",
+        message: "Property not found",
       });
     }
 
     res.status(200).json({
-      message: "property rejected successfully",
+      message: "Property rejected successfully",
       property,
     });
   } catch (error) {
@@ -88,11 +89,11 @@ const getUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
 
-     if (users.length === 0) {
-       return res.status(404).json({
-         message: "No user found",
-       });
-     }
+    if (users.length === 0) {
+      return res.status(404).json({
+        message: "No users found",
+      });
+    }
 
     res.status(200).json({
       message: "Users fetched successfully",
@@ -116,25 +117,25 @@ const changeUserStatus = async (req, res) => {
       });
     }
 
-      if (user.isActive) {
-        user.isActive = false;
-      } else {
-        user.isActive = true;
-      }
+    if (user.isActive) {
+      user.isActive = false;
+    } else {
+      user.isActive = true;
+    }
 
     await user.save();
 
-     let message;
+    let message;
 
-     if (user.isActive) {
-       message = "User activated successfully";
-     } else {
-       message = "User deactivated successfully";
-     }
+    if (user.isActive) {
+      message = "User activated successfully";
+    } else {
+      message = "User deactivated successfully";
+    }
 
     res.status(200).json({
       message: message,
-      user: user
+      user: user,
     });
   } catch (error) {
     res.status(500).json({
@@ -169,13 +170,6 @@ const deleteUser = async (req, res) => {
       error: error.message,
     });
   }
-}
-
-module.exports = {
-  getPendingProperties,
-  approveProperty,
-  rejectProperty,
-  getUsers,
-  changeUserStatus,
-  deleteUser,
 };
+
+module.exports = {getPendingProperties, approveProperty, rejectProperty, getUsers, changeUserStatus, deleteUser};

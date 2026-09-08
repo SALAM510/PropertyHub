@@ -47,19 +47,20 @@ const createProperty = async (req, res) => {
       });
     }
 
-   const imageUrls = [];
+    req.files.reverse();
 
-   for (const file of req.files) {
-     const base64 = file.buffer.toString("base64");
+    const imageUrls = [];
 
-     const dataUri = `data:${file.mimetype};base64,${base64}`;
+    for (const file of req.files) {
+      const base64 = file.buffer.toString("base64");
+      const dataUri = `data:${file.mimetype};base64,${base64}`;
 
-     const result = await cloudinary.uploader.upload(dataUri, {
-       folder: "propertyhub/properties",
-     });
+      const result = await cloudinary.uploader.upload(dataUri, {
+        folder: "propertyhub/properties",
+      });
 
-     imageUrls.push(result.secure_url);
-   }
+      imageUrls.push(result.secure_url);
+    }
 
     const newProperty = new Property({
       title,
@@ -84,50 +85,38 @@ const createProperty = async (req, res) => {
 
     await sendMail({
       to: req.user.email,
-
       subject: "Property Added Successfully",
-
       text: `Hello ${req.user.name}, your property "${title}" has been added successfully and is waiting for admin approval.`,
-
       html: `
         <div style="font-family: Arial, sans-serif; background: #f5f7fb; padding: 40px 20px;">
-
           <div style="max-width: 600px; margin: auto; background: white; border-radius: 10px; padding: 35px;">
-
             <h2 style="color: #1e3a8a; text-align: center; margin-bottom: 25px;">
               Property Added Successfully
             </h2>
-
             <p style="color: #333; font-size: 15px;">
               Hello ${req.user.name},
             </p>
-
             <p style="color: #555; font-size: 15px; line-height: 1.6;">
               Your property
               <strong style="color: #1e3a8a;">${title}</strong>
               has been added successfully and is currently waiting
               for admin approval.
             </p>
-
             <p style="color: #555; font-size: 15px; line-height: 1.6;">
               You will be notified once your property has been reviewed
               and approved by the administrator.
             </p>
-
             <p style="color: #555; font-size: 15px; margin-top: 25px;">
               Thank you for using
               <strong style="color: #1e3a8a;">PropertyHub</strong>.
             </p>
-
           </div>
-
         </div>
       `,
     });
 
     return res.status(201).json({
-      message:
-        "Property posted successfully. Waiting for admin approval.",
+      message: "Property posted successfully. Waiting for admin approval.",
     });
   } catch (error) {
     console.error(error);
@@ -146,13 +135,12 @@ const getProperties = async (req, res) => {
 
     return res.render("pages/properties", {
       properties,
+      isSearch: false,
     });
   } catch (error) {
     console.error(error);
 
-    return res.status(500).send(
-      "Failed to fetch properties"
-    );
+    return res.status(500).send("Failed to fetch properties");
   }
 };
 
@@ -160,18 +148,17 @@ const getBuyProperties = async (req, res) => {
   try {
     const properties = await Property.find({
       status: "approved",
-      listingType: "buy",
+      listingType: "For Sale",
     });
 
     return res.render("pages/properties", {
       properties,
+      isSearch: false,
     });
   } catch (error) {
     console.error(error);
 
-    return res.status(500).send(
-      "Failed to fetch properties"
-    );
+    return res.status(500).send("Failed to fetch properties");
   }
 };
 
@@ -179,18 +166,72 @@ const getRentProperties = async (req, res) => {
   try {
     const properties = await Property.find({
       status: "approved",
-      listingType: "rent",
+      listingType: "For Rent",
     });
 
     return res.render("pages/properties", {
       properties,
+      isSearch: false,
     });
   } catch (error) {
     console.error(error);
 
-    return res.status(500).send(
-      "Failed to fetch properties"
-    );
+    return res.status(500).send("Failed to fetch properties");
+  }
+};
+
+const searchProperties = async (req, res) => {
+  try {
+    const { listingType, location, propertyType, minPrice, maxPrice } =
+      req.query;
+
+    const filter = {
+      status: "approved",
+    };
+
+    if (listingType) {
+      filter.listingType = listingType;
+    }
+
+    let properties = await Property.find(filter);
+
+    if (location) {
+      properties = properties.filter(function (property) {
+        return (
+          property.city.toLowerCase() === location.toLowerCase() ||
+          property.state.toLowerCase() === location.toLowerCase()
+        );
+      });
+    }
+
+    if (propertyType) {
+      properties = properties.filter(function (property) {
+        return (
+          property.propertyType.toLowerCase() === propertyType.toLowerCase()
+        );
+      });
+    }
+
+    if (minPrice) {
+      properties = properties.filter(function (property) {
+        return property.price >= Number(minPrice);
+      });
+    }
+
+    if (maxPrice) {
+      properties = properties.filter(function (property) {
+        return property.price <= Number(maxPrice);
+      });
+    }
+
+    return res.render("pages/properties", {
+      properties: properties,
+      isSearch: true,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).send("Failed to search properties");
   }
 };
 
@@ -220,9 +261,7 @@ const getProperty = async (req, res) => {
     const property = await Property.findById(id);
 
     if (!property) {
-      return res.status(404).send(
-        "Property not found"
-      );
+      return res.status(404).send("Property not found");
     }
 
     const owner = await User.findById(property.postedBy);
@@ -234,9 +273,7 @@ const getProperty = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    return res.status(500).send(
-      "Failed to fetch property"
-    );
+    return res.status(500).send("Failed to fetch property");
   }
 };
 
@@ -263,15 +300,10 @@ const updateProperty = async (req, res) => {
     const property = await Property.findById(id);
 
     if (!property) {
-      return res.status(404).send(
-        "Property not found"
-      );
+      return res.status(404).send("Property not found");
     }
 
-    if (
-      property.postedBy.toString() ===
-      req.user._id.toString()
-    ) {
+    if (property.postedBy.toString() === req.user._id.toString()) {
       property.title = title;
       property.description = description;
       property.price = price;
@@ -293,9 +325,9 @@ const updateProperty = async (req, res) => {
         property: property,
       });
     } else {
-      return res.status(403).send(
-        "You are not allowed to update this property"
-      );
+      return res
+        .status(403)
+        .send("You are not allowed to update this property");
     }
   } catch (error) {
     console.error(error);
@@ -314,9 +346,16 @@ const deleteProperty = async (req, res) => {
     const property = await Property.findById(id);
 
     if (!property) {
-      return res.status(404).send(
-        "Property not found"
-      );
+      return res.status(404).send("Property not found");
+    }
+
+    if (
+      req.user.role !== "admin" &&
+      property.postedBy.toString() !== req.user._id.toString()
+    ) {
+      return res
+        .status(403)
+        .send("You are not allowed to delete this property");
     }
 
     await Property.findByIdAndDelete(id);
@@ -358,14 +397,4 @@ const getPropertyById = async (req, res) => {
   }
 };
 
-module.exports = {
-  createProperty,
-  getProperties,
-  getBuyProperties,
-  getRentProperties,
-  getMyProperties,
-  getProperty,
-  updateProperty,
-  deleteProperty,
-  getPropertyById,
-};
+module.exports = {createProperty, getProperties, getBuyProperties, getRentProperties, searchProperties, getMyProperties, getProperty, updateProperty, deleteProperty, getPropertyById};

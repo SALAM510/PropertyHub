@@ -6,26 +6,7 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    background-image:linear-gradient(rgba(255, 255, 255, 0.85),rgba(255, 255, 255, 0.85)),url("/images/image1.jpg");
-    background-size: cover;
-    background-position: center;
-}
-
-#home-btn {
-    position: absolute;
-    top: 30px;
-    left: 40px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: #1e3a8a;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: #f8fafc;
 }
 
 #register-page {
@@ -107,4 +88,34 @@ body {
     color: #1e3a8a;
     text-decoration: none;
     font-weight: 600;
+}
+
+.error-message {
+    color: #d93025;
+    background-color: #fdecea;
+    border: 1px solid #f5c2c0;
+    padding: 10px 12px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.password-message {
+    color: #d93025;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-family: inherit;
+    background: white;
+}
+
+.input-group select:focus {
+    border-color: #1e3a8a;
 }

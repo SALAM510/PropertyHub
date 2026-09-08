@@ -6,15 +6,13 @@
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
 <body>
 
-    <div id="profile-page">
+<%- include("../partials/navbar") %>
 
-        <a href="/" id="home-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-            Back to Home
-        </a>
+    <div id="profile-page">
 
         <div id="profile-box">
 
@@ -57,6 +55,8 @@
         </div>
 
     </div>
+
+<%- include("../partials/footer") %>
 
 <script>
 
@@ -118,7 +118,7 @@
 
         } catch (error) {
 
-            console.error("PROFILE ERROR:", error);
+            console.error(error);
 
             userName.textContent = "Unable to load profile";
 

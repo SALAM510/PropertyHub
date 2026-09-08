@@ -6,7 +6,7 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    background: #f5f7fb;
+    background: #f8fafc;
 }
 
 #back-button {
@@ -287,6 +287,14 @@ body {
     color: white;
 }
 
+#property-images img {
+    transition: transform 0.3s ease;
+}
+
+#property-images img:hover {
+    transform: scale(1.08);
+}
+
 @media (max-width: 1150px) {
 
     #property-details {
@@ -389,6 +397,10 @@ body {
     #fullscreen-image {
         max-width: 95%;
         max-height: 85%;
+    }
+
+    #favorite-button{
+        margin-bottom: 20px;
     }
 
 }

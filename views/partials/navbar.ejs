@@ -5,189 +5,303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
-    <div id="navbar">
+<div id="navbar">
 
-        <div id="logo">
-            <h3>PropertyHub</h3>
-        </div>
-
-        <nav id="desktop-nav">
-
-            <a href="/">Home</a>
-
-            <a href="/about">AboutUs</a>
-
-            <a href="/properties">Properties</a>
-
-            <a href="/contact">ContactUs</a>
-
-        </nav>
-
-        <div id="buttons">
-
-            <a href="/post-properties" id="post-property-btn">
-                POST PROPERTY
-            </a>
-
-            <a href="/my-properties" id="my-properties-btn">
-                My Properties
-            </a>
-
-            <a href="/profile" id="profile-btn">
-                Profile
-            </a>
-
-            <a href="/register" id="signup">
-                Sign Up
-            </a>
-
-            <a href="/login" id="login">
-                Login
-            </a>
-
-        </div>
-
-        <button id="hamburger">
-            ☰
-        </button>
-
+    <div id="logo">
+        <h3>PropertyHub</h3>
     </div>
 
-    <div id="mobile-menu">
+    <nav id="desktop-nav">
+        <a href="/">Home</a>
+        <a href="/about">AboutUs</a>
+        <a href="/properties">Properties</a>
+        <a href="/contact">ContactUs</a>
+    </nav>
 
-        <nav>
+    <div id="buttons">
+        <a href="/favorites" id="favorite-btn">
+            <i class="fa-regular fa-heart"></i>
+            <span id="favorite-count">0</span>
+        </a>
 
-            <a href="/">Home</a>
+        <div id="profile-container">
+            <button id="profile-btn" type="button">
+                <i class="fa-solid fa-user"></i>
+                <span id="profile-name"></span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
 
-            <a href="/about">AboutUs</a>
+            <div id="profile-dropdown">
+                <a href="/profile">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </a>
 
-            <a href="/properties">Properties</a>
+                <a href="/post-properties" id="post-property-link">
+                    <i class="fa-solid fa-plus"></i>
+                    Post Property
+                </a>
 
-            <a href="/contact">ContactUs</a>
+                <a href="/my-properties" id="my-properties-link">
+                    <i class="fa-solid fa-house"></i>
+                    My Properties
+                </a>
 
-        </nav>
+                <a href="/my-inquiries" id="my-inquiries-link">
+                    <i class="fa-solid fa-envelope"></i>
+                    Inquiries
+                </a>
 
-        <div id="mobile-buttons">
+                <a href="/admin-dashboard" id="admin-dashboard-link">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Admin Dashboard
+                </a>
 
-            <a href="/post-properties" id="mobile-post-property-btn">
-                POST PROPERTY
-            </a>
-
-            <a href="/my-properties" id="mobile-my-properties-btn">
-                My Properties
-            </a>
-
-            <a href="/profile" id="mobile-profile-btn">
-                Profile
-            </a>
-
-            <a href="/register" id="mobile-signup">
-                Sign Up
-            </a>
-
-            <a href="/login" id="mobile-login">
-                Login
-            </a>
-
+                <a href="#" id="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </div>
         </div>
 
+        <a href="/register" id="signup">
+            Sign Up
+        </a>
+
+        <a href="/login" id="login">
+            Login
+        </a>
     </div>
+
+    <button id="hamburger" type="button">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+</div>
+
+<div id="mobile-menu">
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">AboutUs</a>
+        <a href="/properties">Properties</a>
+        <a href="/contact">ContactUs</a>
+    </nav>
+
+    <div id="mobile-buttons">
+        <a href="/favorites" id="mobile-favorite-btn">
+            <i class="fa-regular fa-heart"></i>
+            Favorites
+            <span id="mobile-favorite-count">0</span>
+        </a>
+
+        <a href="/post-properties" id="mobile-post-property-btn">
+            <i class="fa-solid fa-plus"></i>
+            Post Property
+        </a>
+
+        <a href="/my-properties" id="mobile-my-properties-btn">
+            <i class="fa-solid fa-house"></i>
+            My Properties
+        </a>
+
+        <a href="/my-inquiries" id="mobile-my-inquiries-btn">
+            <i class="fa-solid fa-envelope"></i>
+            Inquiries
+        </a>
+
+        <a href="/admin-dashboard" id="mobile-admin-dashboard-btn">
+            <i class="fa-solid fa-shield-halved"></i>
+            Admin Dashboard
+        </a>
+
+        <a href="/profile" id="mobile-profile-btn">
+            <i class="fa-solid fa-user"></i>
+            <span id="mobile-profile-name"></span>
+        </a>
+
+        <a href="/register" id="mobile-signup">
+            Sign Up
+        </a>
+
+        <a href="/login" id="mobile-login">
+            Login
+        </a>
+    </div>
+    
+</div>
 
 <script>
-
     const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name");
+    const role = localStorage.getItem("role");
 
-    const postPropertyBtn =
-        document.getElementById("post-property-btn");
+    const profileContainer = document.getElementById("profile-container");
+    const profileBtn = document.getElementById("profile-btn");
+    const profileName = document.getElementById("profile-name");
+    const profileDropdown = document.getElementById("profile-dropdown");
+    const logoutBtn = document.getElementById("logout-btn");
+    const signup = document.getElementById("signup");
+    const login = document.getElementById("login");
+    const favoriteBtn = document.getElementById("favorite-btn");
+    const favoriteCount = document.getElementById("favorite-count");
 
-    const myPropertiesBtn =
-        document.getElementById("my-properties-btn");
+    const postPropertyLink = document.getElementById("post-property-link");
+    const myPropertiesLink = document.getElementById("my-properties-link");
+    const myInquiriesLink = document.getElementById("my-inquiries-link");
+    const adminDashboardLink = document.getElementById("admin-dashboard-link");
 
-    const profileBtn =
-        document.getElementById("profile-btn");
-
-    const signup =
-        document.getElementById("signup");
-
-    const login =
-        document.getElementById("login");
-
-
-    const mobilePostPropertyBtn =
-        document.getElementById("mobile-post-property-btn");
-
-    const mobileMyPropertiesBtn =
-        document.getElementById("mobile-my-properties-btn");
-
-    const mobileProfileBtn =
-        document.getElementById("mobile-profile-btn");
-
-    const mobileSignup =
-        document.getElementById("mobile-signup");
-
-    const mobileLogin =
-        document.getElementById("mobile-login");
-
+    const mobileFavoriteBtn = document.getElementById("mobile-favorite-btn");
+    const mobileFavoriteCount = document.getElementById("mobile-favorite-count");
+    const mobilePostPropertyBtn = document.getElementById("mobile-post-property-btn");
+    const mobileMyPropertiesBtn = document.getElementById("mobile-my-properties-btn");
+    const mobileMyInquiriesBtn = document.getElementById("mobile-my-inquiries-btn");
+    const mobileAdminDashboardBtn = document.getElementById("mobile-admin-dashboard-btn");
+    const mobileProfileBtn = document.getElementById("mobile-profile-btn");
+    const mobileProfileName = document.getElementById("mobile-profile-name");
+    const mobileSignup = document.getElementById("mobile-signup");
+    const mobileLogin = document.getElementById("mobile-login");
 
     if (token) {
-
-        postPropertyBtn.style.display = "inline-block";
-        myPropertiesBtn.style.display = "inline-block";
-        profileBtn.style.display = "inline-block";
-
+        profileContainer.style.display = "block";
+        favoriteBtn.style.display = "flex";
         signup.style.display = "none";
         login.style.display = "none";
 
-        mobilePostPropertyBtn.style.display = "block";
-        mobileMyPropertiesBtn.style.display = "block";
+        mobileFavoriteBtn.style.display = "block";
         mobileProfileBtn.style.display = "block";
-
         mobileSignup.style.display = "none";
         mobileLogin.style.display = "none";
 
-    } else {
-
-        postPropertyBtn.style.display = "none";
-        myPropertiesBtn.style.display = "none";
-        profileBtn.style.display = "none";
-
-        signup.style.display = "inline-block";
-        login.style.display = "inline-block";
+        postPropertyLink.style.display = "none";
+        myPropertiesLink.style.display = "none";
+        myInquiriesLink.style.display = "none";
+        adminDashboardLink.style.display = "none";
 
         mobilePostPropertyBtn.style.display = "none";
         mobileMyPropertiesBtn.style.display = "none";
-        mobileProfileBtn.style.display = "none";
+        mobileMyInquiriesBtn.style.display = "none";
+        mobileAdminDashboardBtn.style.display = "none";
 
+        if (role === "admin") {
+            adminDashboardLink.style.display = "flex";
+
+            mobileAdminDashboardBtn.style.display = "block";
+
+            postPropertyLink.style.display = "flex";
+            myPropertiesLink.style.display = "flex";
+            myInquiriesLink.style.display = "flex";
+
+            mobilePostPropertyBtn.style.display = "block";
+            mobileMyPropertiesBtn.style.display = "block";
+            mobileMyInquiriesBtn.style.display = "block";
+        } else if (role === "seller") {
+            postPropertyLink.style.display = "flex";
+            myPropertiesLink.style.display = "flex";
+            myInquiriesLink.style.display = "flex";
+
+            mobilePostPropertyBtn.style.display = "block";
+            mobileMyPropertiesBtn.style.display = "block";
+            mobileMyInquiriesBtn.style.display = "block";
+        } else if (role === "buyer") {
+            myInquiriesLink.style.display = "flex";
+            mobileMyInquiriesBtn.style.display = "block";
+        }
+
+        if (name) {
+            profileName.textContent = "Hi, " + name;
+            mobileProfileName.textContent = "Hi, " + name;
+        }
+
+        fetch("/favorite", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        })
+            .then(function (response) {
+                if (response.status === 404) {
+                    return null;
+                }
+
+                return response.json();
+            })
+            .then(function (data) {
+                if (!data) {
+                    return;
+                }
+
+                if (data.favorites) {
+                    favoriteCount.textContent = data.favorites.length;
+                    mobileFavoriteCount.textContent = data.favorites.length;
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    } else {
+        profileContainer.style.display = "none";
+        favoriteBtn.style.display = "flex";
+        signup.style.display = "inline-block";
+        login.style.display = "inline-block";
+
+        mobileFavoriteBtn.style.display = "block";
+        mobilePostPropertyBtn.style.display = "none";
+        mobileMyPropertiesBtn.style.display = "none";
+        mobileMyInquiriesBtn.style.display = "none";
+        mobileAdminDashboardBtn.style.display = "none";
+        mobileProfileBtn.style.display = "none";
         mobileSignup.style.display = "block";
         mobileLogin.style.display = "block";
 
+        favoriteBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            window.location.href = "/login";
+        });
+
+        mobileFavoriteBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            window.location.href = "/login";
+        });
     }
 
-
-    const hamburger =
-        document.getElementById("hamburger");
-
-    const mobileMenu =
-        document.getElementById("mobile-menu");
-
-
-    hamburger.addEventListener("click", function () {
-
-        if (mobileMenu.style.display === "block") {
-
-            mobileMenu.style.display = "none";
-
+    profileBtn.addEventListener("click", function () {
+        if (profileDropdown.style.display === "block") {
+            profileDropdown.style.display = "none";
         } else {
-
-            mobileMenu.style.display = "block";
-
+            profileDropdown.style.display = "block";
         }
-
     });
 
+    document.addEventListener("click", function (event) {
+        if (!profileContainer.contains(event.target)) {
+            profileDropdown.style.display = "none";
+        }
+    });
+
+    logoutBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        localStorage.removeItem("role");
+        localStorage.removeItem("accountType");
+
+        window.location.href = "/";
+    });
+
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    hamburger.addEventListener("click", function () {
+        if (mobileMenu.style.display === "block") {
+            mobileMenu.style.display = "none";
+        } else {
+            mobileMenu.style.display = "block";
+        }
+    });
 </script>
 
 </body>

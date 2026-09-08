@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/update-property.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
 <body>
 
@@ -72,27 +73,31 @@
 
                 <input type="text" id="whatsapp" value="<%= property.whatsapp %>" required>
 
-            <select id="listingType" required>
-            
-                <option value="<%= property.listingType %>">
-                    <%= property.listingType %>
+        <select id="listingType" required>
+    
+        <% if (property.listingType==="For Sale" ) { %>
+    
+            <option value="For Sale" selected>
+                For Sale
+            </option>
+    
+            <option value="For Rent">
+                For Rent
+            </option>
+    
+            <% } else { %>
+    
+                <option value="For Sale">
+                    For Sale
                 </option>
-            
-                <% if (property.listingType==="buy" ) { %>
-            
-                    <option value="rent">
-                        Rent
-                    </option>
-            
-                    <% } else { %>
-            
-                        <option value="buy">
-                            Buy
-                        </option>
-            
-                        <% } %>
-            
-            </select>
+    
+                <option value="For Rent" selected>
+                    For Rent
+                </option>
+    
+                <% } %>
+    
+         </select>
 
                 <label for="propertyType">
                     Property Type

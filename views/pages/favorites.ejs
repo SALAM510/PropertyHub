@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - PropertyHub</title>
+    <link rel="stylesheet" href="/styles/favorites.css">
+    <link rel="stylesheet" href="/styles/properties.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<%- include("../partials/navbar") %>
+
+    <div id="favorites-page">
+        <div id="favorites-heading">
+            <h1>My Favorites</h1>
+            <p>Properties you have saved.</p>
+        </div>
+        <p id="favorites-message"></p>
+       <div id="property-list"></div>
+    </div>
+
+<%- include("../partials/footer") %>
+          
+<script>
+    const favoriteToken = localStorage.getItem("token");
+    const favoritesList = document.getElementById("property-list");
+    const favoritesMessage = document.getElementById("favorites-message");
+
+    if (!favoriteToken) {
+        window.location.href = "/login";
+    }
+
+    async function loadFavorites() {
+        try {
+            const response = await fetch("/favorite", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + favoriteToken
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.status === 404) {
+                favoritesMessage.textContent = "You have no favorite properties yet.";
+                return;
+            }
+
+            if (!response.ok) {
+                favoritesMessage.textContent = data.message;
+                return;
+            }
+
+            const favorites = data.favorites || [];
+
+            if (favorites.length === 0) {
+                favoritesMessage.textContent = "You have no favorite properties yet.";
+                return;
+            }
+
+            favoritesMessage.textContent = "";
+
+            favorites.forEach(function (favorite) {
+                const property = favorite.property;
+
+                const card = document.createElement("div");
+                card.className = "property";
+
+                card.innerHTML = `
+                    <img src="${property.images[0]}" alt="${property.title}">
+                    <div class="property-info">
+                        ${property.listingType === "For Rent"
+                        ? '<p class="listing-type">FOR RENT</p>'
+                        : '<p class="listing-type">FOR SALE</p>'
+                    }
+                        <h2>${property.title}</h2>
+                        <p class="location">${property.city}, ${property.state}</p>
+                        <strong>₦${Number(property.price).toLocaleString()}</strong>
+                        <p class="property-details">
+                            ${property.bedrooms} Bedrooms
+                            ${property.bathrooms} Bathrooms
+                        </p>
+                        <p class="description">
+                            ${property.description.substring(0, 100)}...
+                        </p>
+                        <div class="favorite-actions">
+                            <a href="/properties/${property._id}" class="see-more">
+                                See More
+                            </a>
+                            <button type="button" onclick="removeFavorite('${favorite._id}', this)">
+                                <i class="fa-solid fa-heart"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                favoritesList.appendChild(card);
+            });
+        } catch (error) {
+            console.error(error);
+            favoritesMessage.textContent = "Unable to load your favorites.";
+        }
+    }
+
+    async function removeFavorite(favoriteId, button) {
+        try {
+            const response = await fetch("/favorite/" + favoriteId, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + favoriteToken
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message);
+                return;
+            }
+
+            button.closest(".property").remove();
+
+            const cards = document.querySelectorAll("#property-list .property");
+
+            if (cards.length === 0) {
+                favoritesMessage.textContent = "You have no favorite properties yet.";
+            }
+
+            updateNavbarFavoriteCount(-1);
+        } catch (error) {
+            console.error(error);
+            alert("Unable to remove favorite. Please try again.");
+        }
+    }
+
+    function updateNavbarFavoriteCount(change) {
+        const favoriteCount = document.getElementById("favorite-count");
+        const mobileFavoriteCount = document.getElementById("mobile-favorite-count");
+
+        if (favoriteCount) {
+            let count = Number(favoriteCount.textContent) || 0;
+            count = Math.max(0, count + change);
+            favoriteCount.textContent = count;
+        }
+
+        if (mobileFavoriteCount) {
+            let count = Number(mobileFavoriteCount.textContent) || 0;
+            count = Math.max(0, count + change);
+            mobileFavoriteCount.textContent = count;
+        }
+    }
+
+    loadFavorites();
+</script>
+
+</body>
+</html>

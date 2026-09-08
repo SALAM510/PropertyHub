@@ -6,8 +6,8 @@
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
-
 <body>
 
     <%- include("../partials/navbar") %>
@@ -29,7 +29,6 @@
 
             </div>
 
-
             <div id="search">
 
                 <div id="search-tabs">
@@ -44,87 +43,63 @@
 
                 </div>
 
-
                 <div id="search-options">
 
                     <div>
-
                         <label>Location</label>
-
                         <input type="text" id="location" placeholder="Enter location">
-
                     </div>
 
-
                     <div>
-
                         <label>Property Type</label>
-
                         <select id="propertyType">
-
                             <option value="">
                                 Property Type
                             </option>
-
                             <option value="house">
                                 House
                             </option>
-
                             <option value="Penthouse">
                                 Penthouse
                             </option>
-
                             <option value="Duplex">
                                 Duplex
                             </option>
-
                             <option value="Detached Duplex">
                                 Detached Duplex
                             </option>
-
                             <option value="Semi Detached Duplex">
                                 Semi Detached Duplex
                             </option>
-
                             <option value="Bungalow">
                                 Bungalow
                             </option>
-
                             <option value="Detached Bungalow">
                                 Detached Bungalow
                             </option>
-
                             <option value="Semi Detached Bungalow">
                                 Semi Detached Bungalow
                             </option>
-
-                            <option value="Hotels">
-                                Hotels
+                            <option value="Terrace">
+                                Terrace
                             </option>
-
                             <option value="Hostels">
                                 Hostels
                             </option>
-
                             <option value="Self Conatin">
                                 Self Conatin
                             </option>
-
                         </select>
 
                     </div>
-
 
                     <div>
 
                         <label>Minimum Price</label>
-
                         <select id="minPrice">
-
                             <option value="">
                                 Minimum Price
                             </option>
-
                             <option value="10000000">10,000,000</option>
                             <option value="20000000">20,000,000</option>
                             <option value="30000000">30,000,000</option>
@@ -138,18 +113,14 @@
                         </select>
 
                     </div>
-
 
                     <div>
 
                         <label>Maximum Price</label>
-
                         <select id="maxPrice">
-
                             <option value="">
                                 Maximum Price
                             </option>
-
                             <option value="10000000">10,000,000</option>
                             <option value="20000000">20,000,000</option>
                             <option value="30000000">30,000,000</option>
@@ -163,7 +134,6 @@
                         </select>
 
                     </div>
-
 
                     <button type="button" id="search-button">
                         Search
@@ -200,7 +170,7 @@
 
                     <p>Lagos, Nigeria</p>
 
-                    <strong>#200,000,000</strong>
+                    <strong>₦200,000,000</strong>
 
                     <p>3 bed 3 baths</p>
 
@@ -215,7 +185,7 @@
 
                     <p>Abuja, Nigeria</p>
 
-                    <strong>#200,000,000</strong>
+                    <strong>₦200,000,000</strong>
 
                     <p>4 bed 4 baths</p>
 
@@ -230,7 +200,7 @@
 
                     <p>Ibadan, Nigeria</p>
 
-                    <strong>#350,000,000</strong>
+                    <strong>₦350,000,000</strong>
 
                     <p>5 bed 5 baths</p>
 
@@ -292,47 +262,56 @@
         <%- include("../partials/footer") %>
 
 <script>
-
     const searchTabs = document.querySelectorAll(".searchtab");
-
     const searchButton = document.getElementById("search-button");
 
-    let listingType = "buy";
-
+    let listingType = "For Sale";
 
     searchTabs.forEach(tab => {
-
         tab.addEventListener("click", function () {
-
             searchTabs.forEach(tab => {
                 tab.classList.remove("active");
             });
 
             this.classList.add("active");
 
-            listingType = this.dataset.type;
-
+            if (this.textContent.trim() === "BUY") {
+                listingType = "For Sale";
+            } else {
+                listingType = "For Rent";
+            }
         });
-
     });
-
 
     searchButton.addEventListener("click", function () {
 
-        if (listingType === "buy") {
+        const location = document.getElementById("location").value;
+        const propertyType = document.getElementById("propertyType").value;
+        const minPrice = document.getElementById("minPrice").value;
+        const maxPrice = document.getElementById("maxPrice").value;
 
-            window.location.href = "/properties/buy";
+        const params = new URLSearchParams();
 
+        params.append("listingType", listingType);
+
+        if (location) {
+            params.append("location", location);
         }
 
-        if (listingType === "rent") {
-
-            window.location.href = "/properties/rent";
-
+        if (propertyType) {
+            params.append("propertyType", propertyType);
         }
 
+        if (minPrice) {
+            params.append("minPrice", minPrice);
+        }
+
+        if (maxPrice) {
+            params.append("maxPrice", maxPrice);
+        }
+
+        window.location.href = "/properties/search?" + params.toString();
     });
-
 </script>
 
 </body>

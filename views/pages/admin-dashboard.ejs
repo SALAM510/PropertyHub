@@ -6,6 +6,7 @@
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/admin-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
 <body>
 
@@ -382,7 +383,7 @@
                                         Price:
                                     </strong>
 
-                                    #${Number(
+                                    ₦${Number(
                         property.price
                     ).toLocaleString()}
 
@@ -567,11 +568,9 @@
                 return;
             }
 
-
             showMessage(
                 data.message
             );
-
 
             getProperties();
 
@@ -653,10 +652,8 @@
                             "div"
                         );
 
-
                     div.className =
                         "user";
-
 
                     div.innerHTML = `
 
@@ -881,7 +878,6 @@
 
             event.preventDefault();
 
-
             const profileToken =
                 localStorage.getItem(
                     "token"
@@ -960,13 +956,11 @@
 
         }
 
-
         getProperties();
 
         getUsers();
 
     }
-
 
     loadDashboard();
 

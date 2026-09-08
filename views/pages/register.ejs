@@ -6,62 +6,135 @@
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/register.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
 <body>
-    <div id="register-page">
 
-        <a href="/" id="home-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-            Back
-        </a>
-    
-        <div id="register-box">
-    
-            <h1>Create Account</h1>
-    
-            <p class="register-text">
-                Create your PropertyHub account
-            </p>
-    
-            <form action="/auth/register" method="POST">
+<%- include("../partials/navbar") %>
 
-                <% if (error) { %>
-                    <p class="error-message"><%= error %></p>
-                    <% } %>
-    
-                <div class="input-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-                </div>
-    
-                <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                </div>
-    
-                <div class="input-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-                </div>
-    
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Create a password" required>
-                </div>
-    
-                <button type="submit">
-                    Create Account
-                </button>
-    
-            </form>
-    
-            <p class="login-link">
-                Already have an account?
-                <a href="/login">Login</a>
-            </p>
-    
-        </div>
-    
+<div id="register-page">
+    <div id="register-box">
+        <h1>Create Account</h1>
+        <p class="register-text">
+            Create your PropertyHub account
+        </p>
+        <form action="/auth/register" method="POST" id="registerForm">
+            <% if (error) { %>
+                <p class="error-message">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <div class="input-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name"
+                            value="<%= name || '' %>">
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email"
+                            value="<%= email || '' %>">
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="number" id="phone" name="phone" placeholder="Enter your phone number"
+                            value="<%= phone || '' %>">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Create a password">
+                        <p class="password-message" id="password-message">
+                            Password must be at least 6 characters.
+                        </p>
+                    </div>
+                    <div class="input-group">
+                        <label for="role">I am a</label>
+                        <select id="role" name="role">
+                            <option value="">Select account type</option>
+                            <option value="buyer" <%=role==="buyer" ? "selected" : "" %>>Buyer</option>
+                            <option value="seller" <%=role==="seller" ? "selected" : "" %>>Seller</option>
+                        </select>
+                    </div>
+                    <button type="submit">
+                        Create Account
+                    </button>
+        </form>
+        <p class="login-link">
+            Already have an account?
+            <a href="/login">Login</a>
+        </p>
     </div>
+</div>
+
+<%- include("../partials/footer") %>
+
+<script>
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const roleInput = document.getElementById("role");
+    const passwordInput = document.getElementById("password");
+    const passwordMessage = document.getElementById("password-message");
+    const registerForm = document.getElementById("registerForm");
+    const errorMessage = document.querySelector(".error-message");
+
+    nameInput.value = localStorage.getItem("registerName") || "";
+    emailInput.value = localStorage.getItem("registerEmail") || "";
+    phoneInput.value = localStorage.getItem("registerPhone") || "";
+    roleInput.value = localStorage.getItem("registerRole") || "";
+
+    passwordMessage.style.display = "none";
+
+    nameInput.addEventListener("input", function () {
+        localStorage.setItem("registerName", nameInput.value);
+
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    emailInput.addEventListener("input", function () {
+        localStorage.setItem("registerEmail", emailInput.value);
+
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    phoneInput.addEventListener("input", function () {
+        localStorage.setItem("registerPhone", phoneInput.value);
+
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    roleInput.addEventListener("change", function () {
+        localStorage.setItem("registerRole", roleInput.value);
+
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    passwordInput.addEventListener("input", function () {
+        if (passwordInput.value.length > 0 && passwordInput.value.length < 6) {
+            passwordMessage.style.display = "block";
+        } else {
+            passwordMessage.style.display = "none";
+        }
+
+        if (errorMessage) {
+            errorMessage.style.display = "none";
+        }
+    });
+
+    registerForm.addEventListener("submit", function () {
+        localStorage.removeItem("registerName");
+        localStorage.removeItem("registerEmail");
+        localStorage.removeItem("registerPhone");
+        localStorage.removeItem("registerRole");
+    });
+</script>
+
 </body>
 </html>

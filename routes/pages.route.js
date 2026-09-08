@@ -1,6 +1,5 @@
-const {HomePage, AboutPage, ContactPage, LoginPage, PostPropertiesPage, RegisterPage, ProfilePage, PropertiesPage, VerifyOtpPage, PropertiesDetailsPage, AdminPage, UpdatePropertyPage, MyPropertiesPage} = require("../controller/pages.controller");
-const isAuthenticated = require("../middleware/auth.middleware");
-const adminOnly = require("../middleware/admin.middleware");
+const { HomePage, AboutPage, ContactPage, LoginPage, PostPropertiesPage, RegisterPage, ProfilePage, PropertiesPage, VerifyOtpPage, PropertiesDetailsPage, AdminPage, UpdatePropertyPage, MyPropertiesPage, FavoritesPage, MyInquiriesPage} = require("../controller/pages.controller");
+const isAuthenticated = require("../middleware/auth.middleware");const adminOnly = require("../middleware/admin.middleware");
 const express = require("express");
 const route = express.Router();
 
@@ -19,5 +18,7 @@ route.get("/admin-dashboard", (req, res) => {
 });
 route.get("/update-property/:id", UpdatePropertyPage);
 route.get("/my-properties", MyPropertiesPage);
+route.get("/my-inquiries", MyInquiriesPage);
+route.get("/favorites", FavoritesPage);
 
 module.exports = route;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const inquirySchema = new mongoose.Schema(
   {
     property: {
@@ -6,27 +7,25 @@ const inquirySchema = new mongoose.Schema(
       ref: "Property",
       required: true,
     },
-
-    user: {
+    buyer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     message: {
       type: String,
       required: true,
     },
-
-    email: {
+    status: {
       type: String,
-      required: true,
+      enum: ["pending", "contacted", "closed"],
+      default: "pending",
     },
-
-    whatsapp: {
-      type: String,
-      required: true,
-    }
   },
   {
     timestamps: true,

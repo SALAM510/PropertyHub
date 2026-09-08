@@ -6,16 +6,15 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    background-image:linear-gradient(rgba(255, 255, 255, 0.85),rgba(255, 255, 255, 0.85)),url("/images/image1.jpg");
-    background-size: cover;
-    background-position: center;}
+    background: #f8fafc;
+}
 
 #verify-page {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 100px 20px 40px;
+    padding: 50px 20px 40px;
 }
 
 .verify-container {

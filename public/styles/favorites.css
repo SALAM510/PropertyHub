@@ -7,29 +7,33 @@
 body {
     font-family: "Poppins", sans-serif;
     background: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-#properties-page {
-    padding: 50px 60px 70px;
+#favorites-page {
+    padding: 40px 60px 70px;
+    flex: 1;
 }
 
-#properties-heading {
+#favorites-heading {
     text-align: center;
-    margin-bottom: 45px;
+    margin-bottom: 100px;
 }
 
-#properties-heading h1 {
+#favorites-heading h1 {
     font-size: 38px;
     color: #172554;
     margin-bottom: 10px;
 }
 
-#properties-heading p {
+#favorites-heading p {
     color: #64748b;
     font-size: 20px;
 }
 
-#property-list {
+#favorites-page #property-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
@@ -37,7 +41,7 @@ body {
     margin: 0 auto;
 }
 
-.property {
+#favorites-page .property {
     background: white;
     border-radius: 14px;
     overflow: hidden;
@@ -46,23 +50,23 @@ body {
     border: 1px solid #e5e7eb;
 }
 
-.property:hover {
+#favorites-page .property:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-.property img {
+#favorites-page .property img {
     width: 100%;
     height: 230px;
     object-fit: cover;
     display: block;
 }
 
-.property-info {
+#favorites-page .property-info {
     padding: 22px;
 }
 
-.listing-type {
+#favorites-page .listing-type {
     display: inline-block;
     padding: 6px 12px;
     margin-bottom: 12px;
@@ -73,26 +77,26 @@ body {
     font-weight: bold;
 }
 
-.property-info h2 {
+#favorites-page .property-info h2 {
     font-size: 21px;
     color: #172554;
     margin-bottom: 10px;
 }
 
-.location {
+#favorites-page .location {
     color: #64748b;
     font-size: 14px;
     margin-bottom: 12px;
 }
 
-.property-info strong {
+#favorites-page .property-info strong {
     display: block;
     font-size: 21px;
     color: #1e3a8a;
     margin-bottom: 14px;
 }
 
-.property-details {
+#favorites-page .property-details {
     color: #475569;
     font-size: 14px;
     margin-bottom: 14px;
@@ -100,14 +104,19 @@ body {
     border-bottom: 1px solid #e5e7eb;
 }
 
-.description {
+#favorites-page .description {
     color: #64748b;
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 20px;
 }
 
-.see-more {
+#favorites-page .favorite-actions {
+    display: flex;
+    gap: 10px;
+}
+
+#favorites-page .see-more {
     display: inline-block;
     padding: 11px 20px;
     background: #1e3a8a;
@@ -119,115 +128,117 @@ body {
     transition: 0.3s;
 }
 
-.see-more:hover {
+#favorites-page .see-more:hover {
     background: #162d6b;
 }
 
-.no-properties {
+#favorites-page .favorite-actions button {
+    padding: 11px 20px;
+    background: #eee;
+    color: #333;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#favorites-page .favorite-actions button:hover {
+    background: #ddd;
+}
+
+#favorites-message {
     text-align: center;
-    margin: 20px auto;
-    grid-column: 1 / -1;
-    width: 100%;
-}
-
-.no-properties h2 {
-    font-size: 28px;
-    margin-bottom: 8px;
-    color: #172554;
-}
-
-.no-properties p {
-    font-size: 15px;
     color: #64748b;
+    font-size: 18px;
+    margin: 40px 0;
 }
 
 @media (max-width: 1000px) {
-
-    #properties-page {
+    #favorites-page {
         padding: 110px 35px 60px;
     }
 
-    #property-list {
+    #favorites-page #property-list {
         grid-template-columns: repeat(2, 1fr);
     }
-
 }
 
 @media (max-width: 768px) {
-
-    #properties-page {
+    #favorites-page {
         padding: 100px 20px 50px;
     }
 
-    #properties-heading {
+    #favorites-heading {
         margin-bottom: 35px;
     }
 
-    #properties-heading h1 {
+    #favorites-heading h1 {
         font-size: 30px;
     }
 
-    #properties-heading p {
+    #favorites-heading p {
         font-size: 15px;
         line-height: 1.6;
     }
 
-    #property-list {
+    #favorites-page #property-list {
         grid-template-columns: 1fr;
         gap: 25px;
     }
 
-    .property {
+    #favorites-page .property {
         width: 100%;
     }
 
-    .property img {
+    #favorites-page .property img {
         height: 220px;
     }
 
-    .property-info {
+    #favorites-page .property-info {
         padding: 20px;
     }
 
-    .property-info h2 {
+    #favorites-page .property-info h2 {
         font-size: 20px;
     }
 
-    .property-info strong {
+    #favorites-page .property-info strong {
         font-size: 20px;
     }
 
-    .description {
+    #favorites-page .description {
         font-size: 14px;
     }
 
-    .see-more {
+    #favorites-page .favorite-actions {
+        flex-direction: column;
+    }
+
+    #favorites-page .see-more,
+    #favorites-page .favorite-actions button {
         width: 100%;
         text-align: center;
     }
-
 }
 
 @media (max-width: 400px) {
-
-    #properties-page {
+    #favorites-page {
         padding: 95px 15px 45px;
     }
 
-    #properties-heading h1 {
+    #favorites-heading h1 {
         font-size: 27px;
     }
 
-    #properties-heading p {
+    #favorites-heading p {
         font-size: 14px;
     }
 
-    .property img {
+    #favorites-page .property img {
         height: 200px;
     }
 
-    .property-info {
+    #favorites-page .property-info {
         padding: 17px;
     }
-
 }

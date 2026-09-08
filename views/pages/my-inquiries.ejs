@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub - Inquiries</title>
+    <link rel="stylesheet" href="/styles/my-inquiries.css">
+    <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
+</head>
+<body>
+
+<%- include("../partials/navbar") %>
+
+        <div class="my-inquiries-container">
+            <h1>Inquiries</h1>
+            <p id="inquiry-description"></p>
+            <div id="inquiries-list">
+                <p class="inquiry-message">Loading inquiries...</p>
+            </div>
+        </div>
+
+<%- include("../partials/footer") %>
+
+<script>
+    const inquiryToken = localStorage.getItem("token");
+    const inquiryRole = localStorage.getItem("role");
+    const inquiriesList = document.getElementById("inquiries-list");
+    const inquiryDescription = document.getElementById("inquiry-description");
+
+    if (!inquiryToken) {
+        window.location.href = "/login";
+    }
+
+    async function getInquiries() {
+        let inquiryUrl;
+
+        if (inquiryRole === "buyer") {
+            inquiryUrl = "/inquiry";
+            inquiryDescription.textContent = "View the inquiries you have sent to property sellers.";
+        } else if (inquiryRole === "seller") {
+            inquiryUrl = "/inquiry/seller";
+            inquiryDescription.textContent = "View the inquiries buyers have sent to you.";
+        } else if (inquiryRole === "admin") {
+            inquiryUrl = "/inquiry/seller";
+            inquiryDescription.textContent = "View all inquiries sent by buyers.";
+        } else {
+            inquiriesList.innerHTML = `
+                <p class="inquiry-message">
+                    You are not allowed to view inquiries.
+                </p>
+            `;
+            return;
+        }
+
+        try {
+            const response = await fetch(inquiryUrl, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + inquiryToken
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                inquiriesList.innerHTML = `
+                    <p class="inquiry-message">
+                        ${data.message || "Unable to load inquiries"}
+                    </p>
+                `;
+                return;
+            }
+
+            if (!data.inquiries || data.inquiries.length === 0) {
+                if (inquiryRole === "buyer") {
+                    inquiriesList.innerHTML = `
+                        <p class="inquiry-message">
+                            You have not sent any inquiries yet.
+                        </p>
+                    `;
+                } else if (inquiryRole === "admin") {
+                    inquiriesList.innerHTML = `
+                        <p class="inquiry-message">
+                            There are no inquiries yet.
+                        </p>
+                    `;
+                } else {
+                    inquiriesList.innerHTML = `
+                        <p class="inquiry-message">
+                            You have not received any inquiries yet.
+                        </p>
+                    `;
+                }
+
+                return;
+            }
+
+            inquiriesList.innerHTML = "";
+
+            data.inquiries.forEach(function (inquiry) {
+                const propertyTitle = inquiry.property
+                    ? inquiry.property.title
+                    : "Property unavailable";
+
+                const inquiryCard = document.createElement("div");
+                inquiryCard.className = "inquiry-card";
+
+                if (inquiryRole === "buyer") {
+                    inquiryCard.innerHTML = `
+                        <h3>${propertyTitle}</h3>
+                        <p><strong>Seller:</strong> ${inquiry.sellerName}</p>
+                        <p><strong>Email:</strong> ${inquiry.sellerEmail}</p>
+                        <p><strong>WhatsApp:</strong> ${inquiry.sellerPhone}</p>
+                        <p><strong>Message:</strong> ${inquiry.message}</p>
+                        <p><strong>Status:</strong> ${inquiry.status}</p>
+                        <p><strong>Date:</strong> ${new Date(inquiry.createdAt).toLocaleDateString()}</p>
+                        <button type="button" onclick="deleteInquiry('${inquiry._id}')">
+                            Delete Inquiry
+                        </button>
+                    `;
+                } else {
+                    inquiryCard.innerHTML = `
+                        <h3>${propertyTitle}</h3>
+                        <p><strong>From:</strong> ${inquiry.buyerName}</p>
+                        <p><strong>Email:</strong> ${inquiry.buyerEmail}</p>
+                        <p><strong>WhatsApp:</strong> ${inquiry.buyerPhone}</p>
+                        <p><strong>Message:</strong> ${inquiry.message}</p>
+                        <p><strong>Status:</strong> ${inquiry.status}</p>
+                        <p><strong>Date:</strong> ${new Date(inquiry.createdAt).toLocaleDateString()}</p>
+                        <button type="button" onclick="deleteInquiry('${inquiry._id}')">
+                            Delete Inquiry
+                        </button>
+                    `;
+                }
+
+                inquiriesList.appendChild(inquiryCard);
+            });
+        } catch (error) {
+            console.error(error);
+
+            inquiriesList.innerHTML = `
+                <p class="inquiry-message">
+                    Unable to load inquiries.
+                </p>
+            `;
+        }
+    }
+
+    async function deleteInquiry(id) {
+        const confirmDelete = confirm(
+            "Are you sure you want to delete this inquiry?"
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+            const response = await fetch("/inquiry/" + id, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + inquiryToken
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message || "Unable to delete inquiry");
+                return;
+            }
+
+            getInquiries();
+        } catch (error) {
+            console.error(error);
+            alert("Unable to delete inquiry");
+        }
+    }
+
+    getInquiries();
+</script>
+
+</body>
+</html>

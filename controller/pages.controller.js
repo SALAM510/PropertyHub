@@ -24,7 +24,11 @@ const PostPropertiesPage = (req, res) => {
 
 const RegisterPage = (req, res) => {
   res.render("pages/register", {
-    error: null,
+    name: "",
+    email: "",
+    phone: "",
+    role: "",
+    error: "",
   });
 };
 
@@ -40,10 +44,10 @@ const PropertiesPage = async (req, res) => {
 
     res.render("pages/properties", {
       properties: properties,
+      isSearch: false,
     });
   } catch (error) {
     console.log(error);
-
     res.status(500).send("Unable to load properties");
   }
 };
@@ -82,6 +86,14 @@ const MyPropertiesPage = (req, res) => {
   res.render("pages/my-properties");
 };
 
+const MyInquiriesPage = (req, res) => {
+  res.render("pages/my-inquiries");
+};
+
+const FavoritesPage = (req, res) => {
+  res.render("pages/favorites");
+};
+
 const UpdatePropertyPage = async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
@@ -100,18 +112,4 @@ const UpdatePropertyPage = async (req, res) => {
   }
 };
 
-module.exports = {
-  HomePage,
-  AboutPage,
-  ContactPage,
-  LoginPage,
-  PostPropertiesPage,
-  RegisterPage,
-  ProfilePage,
-  PropertiesPage,
-  VerifyOtpPage,
-  PropertiesDetailsPage,
-  AdminPage,
-  MyPropertiesPage,
-  UpdatePropertyPage
-};
+module.exports = {HomePage, AboutPage, ContactPage, LoginPage, PostPropertiesPage, RegisterPage, ProfilePage, PropertiesPage, VerifyOtpPage, PropertiesDetailsPage, AdminPage, MyPropertiesPage, MyInquiriesPage, FavoritesPage, UpdatePropertyPage};

@@ -48,7 +48,7 @@
 
       listingType: {
         type: String,
-        enum: ["buy", "rent"],
+        enum: ["For Sale", "For Rent"],
         required: true,
       },
 
