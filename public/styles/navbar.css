@@ -189,6 +189,46 @@ body {
     background: #162d6b;
 }
 
+#mobile-actions {
+    display: none;
+    align-items: center;
+    gap: 12px;
+}
+
+#mobile-favorite-icon {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 50%;
+}
+
+#mobile-favorite-icon:hover {
+    background: #1e3a8a;
+}
+
+#mobile-favorite-icon-count {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 17px;
+    height: 17px;
+    padding: 1px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: #172554;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+}
+
 #hamburger {
     display: none;
     border: none;
@@ -201,8 +241,10 @@ body {
 #mobile-menu {
     display: none;
     width: 100%;
-    background: #172554;
-    padding: 20px 30px;
+    background: white;
+    padding: 25px 30px;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 #mobile-menu nav {
@@ -214,8 +256,13 @@ body {
 
 #mobile-menu nav a {
     text-decoration: none;
-    color: white;
+    color: #172554;
     font-size: 17px;
+    font-weight: 500;
+}
+
+#mobile-menu nav a:hover {
+    color: #2563eb;
 }
 
 #mobile-buttons {
@@ -223,22 +270,29 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 18px;
-    margin-top: 18px;
+    margin-top: 20px;
 }
 
 #mobile-buttons a {
     text-decoration: none;
-    color: white;
+    color: #172554;
     background: none;
     padding: 0;
     border: none;
     text-align: center;
     font-size: 17px;
+    font-weight: 500;
+}
+
+#mobile-buttons a:hover {
+    color: #2563eb;
 }
 
 #mobile-favorite-btn,
 #mobile-post-property-btn,
 #mobile-my-properties-btn,
+#mobile-my-inquiries-btn,
+#mobile-admin-dashboard-btn,
 #mobile-profile-btn,
 #mobile-signup,
 #mobile-login {
@@ -255,7 +309,7 @@ body {
         padding: 0 30px;
     }
 
-    #navbar h3{
+    #navbar h3 {
         font-size: 20px;
     }
 
@@ -274,26 +328,24 @@ body {
         padding: 0 25px;
     }
 
-    #navbar h3{
+    #navbar h3 {
         font-size: 20px;
     }
 
-    #buttons i{
+    #buttons i {
         font-size: 15px;
     }
-    #buttons a{
+
+    #buttons a {
         font-size: 10px;
     }
 
-    #profile-container span{
+    #profile-container span {
         font-size: 10px;
-    }
-
-    #desktop-nav{
-        margin-top: 3px;
     }
 
     #desktop-nav {
+        margin-top: 3px;
         gap: 10px;
         margin-left: 15px;
     }
@@ -306,11 +358,7 @@ body {
 @media (max-width: 800px) {
     #navbar {
         height: 70px;
-        padding: 0 25px;
-    }
-
-    #navbar h3{
-        font-size: 20px;
+        padding: 0 20px;
     }
 
     #logo {
@@ -321,9 +369,16 @@ body {
         font-size: 22px;
     }
 
-    #desktop-nav,
+    #desktop-nav {
+        display: none;
+    }
+
     #buttons {
         display: none;
+    }
+
+    #mobile-actions {
+        display: flex;
     }
 
     #hamburger {

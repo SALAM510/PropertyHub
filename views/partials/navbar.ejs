@@ -9,129 +9,129 @@
 </head>
 <body>
 
-<div id="navbar">
+    <div id="navbar">
 
-    <div id="logo">
-        <h3>PropertyHub</h3>
-    </div>
-
-    <nav id="desktop-nav">
-        <a href="/">Home</a>
-        <a href="/about">AboutUs</a>
-        <a href="/properties">Properties</a>
-        <a href="/contact">ContactUs</a>
-    </nav>
-
-    <div id="buttons">
-        <a href="/favorites" id="favorite-btn">
-            <i class="fa-regular fa-heart"></i>
-            <span id="favorite-count">0</span>
-        </a>
-
-        <div id="profile-container">
-            <button id="profile-btn" type="button">
-                <i class="fa-solid fa-user"></i>
-                <span id="profile-name"></span>
-                <i class="fa-solid fa-chevron-down"></i>
-            </button>
-
-            <div id="profile-dropdown">
-                <a href="/profile">
-                    <i class="fa-solid fa-user"></i>
-                    Profile
-                </a>
-
-                <a href="/post-properties" id="post-property-link">
-                    <i class="fa-solid fa-plus"></i>
-                    Post Property
-                </a>
-
-                <a href="/my-properties" id="my-properties-link">
-                    <i class="fa-solid fa-house"></i>
-                    My Properties
-                </a>
-
-                <a href="/my-inquiries" id="my-inquiries-link">
-                    <i class="fa-solid fa-envelope"></i>
-                    Inquiries
-                </a>
-
-                <a href="/admin-dashboard" id="admin-dashboard-link">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    Admin Dashboard
-                </a>
-
-                <a href="#" id="logout-btn">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Logout
-                </a>
-            </div>
+        <div id="logo">
+            <h3>PropertyHub</h3>
         </div>
 
-        <a href="/register" id="signup">
-            Sign Up
-        </a>
+        <nav id="desktop-nav">
+            <a href="/">Home</a>
+            <a href="/about">AboutUs</a>
+            <a href="/properties">Properties</a>
+            <a href="/contact">ContactUs</a>
+        </nav>
 
-        <a href="/login" id="login">
-            Login
-        </a>
+        <div id="buttons">
+            <a href="/favorites" id="favorite-btn">
+                <i class="fa-regular fa-heart"></i>
+                <span id="favorite-count">0</span>
+            </a>
+
+            <div id="profile-container">
+                <button id="profile-btn" type="button">
+                    <i class="fa-solid fa-user"></i>
+                    <span id="profile-name"></span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+
+                <div id="profile-dropdown">
+                    <a href="/profile">
+                        <i class="fa-solid fa-user"></i>
+                        Profile
+                    </a>
+
+                    <a href="/post-properties" id="post-property-link">
+                        <i class="fa-solid fa-plus"></i>
+                        Post Property
+                    </a>
+
+                    <a href="/my-properties" id="my-properties-link">
+                        <i class="fa-solid fa-house"></i>
+                        My Properties
+                    </a>
+
+                    <a href="/my-inquiries" id="my-inquiries-link">
+                        <i class="fa-solid fa-envelope"></i>
+                        Inquiries
+                    </a>
+
+                    <a href="/admin-dashboard" id="admin-dashboard-link">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Admin Dashboard
+                    </a>
+
+                    <a href="#" id="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+            <a href="/register" id="signup">
+                Sign Up
+            </a>
+
+            <a href="/login" id="login">
+                Login
+            </a>
+        </div>
+
+        <div id="mobile-actions">
+            <a href="/favorites" id="mobile-favorite-icon">
+                <i class="fa-regular fa-heart"></i>
+                <span id="mobile-favorite-icon-count">0</span>
+            </a>
+
+            <button id="hamburger" type="button">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
     </div>
 
-    <button id="hamburger" type="button">
-        <i class="fa-solid fa-bars"></i>
-    </button>
-</div>
+    <div id="mobile-menu">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">AboutUs</a>
+            <a href="/properties">Properties</a>
+            <a href="/contact">ContactUs</a>
+        </nav>
 
-<div id="mobile-menu">
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">AboutUs</a>
-        <a href="/properties">Properties</a>
-        <a href="/contact">ContactUs</a>
-    </nav>
+        <div id="mobile-buttons">
+            <a href="/post-properties" id="mobile-post-property-btn">
+                <i class="fa-solid fa-plus"></i>
+                Post Property
+            </a>
 
-    <div id="mobile-buttons">
-        <a href="/favorites" id="mobile-favorite-btn">
-            <i class="fa-regular fa-heart"></i>
-            Favorites
-            <span id="mobile-favorite-count">0</span>
-        </a>
+            <a href="/my-properties" id="mobile-my-properties-btn">
+                <i class="fa-solid fa-house"></i>
+                My Properties
+            </a>
 
-        <a href="/post-properties" id="mobile-post-property-btn">
-            <i class="fa-solid fa-plus"></i>
-            Post Property
-        </a>
+            <a href="/my-inquiries" id="mobile-my-inquiries-btn">
+                <i class="fa-solid fa-envelope"></i>
+                Inquiries
+            </a>
 
-        <a href="/my-properties" id="mobile-my-properties-btn">
-            <i class="fa-solid fa-house"></i>
-            My Properties
-        </a>
+            <a href="/admin-dashboard" id="mobile-admin-dashboard-btn">
+                <i class="fa-solid fa-shield-halved"></i>
+                Admin Dashboard
+            </a>
 
-        <a href="/my-inquiries" id="mobile-my-inquiries-btn">
-            <i class="fa-solid fa-envelope"></i>
-            Inquiries
-        </a>
+            <a href="/profile" id="mobile-profile-btn">
+                <i class="fa-solid fa-user"></i>
+                <span id="mobile-profile-name"></span>
+            </a>
 
-        <a href="/admin-dashboard" id="mobile-admin-dashboard-btn">
-            <i class="fa-solid fa-shield-halved"></i>
-            Admin Dashboard
-        </a>
+            <a href="/register" id="mobile-signup">
+                Sign Up
+            </a>
 
-        <a href="/profile" id="mobile-profile-btn">
-            <i class="fa-solid fa-user"></i>
-            <span id="mobile-profile-name"></span>
-        </a>
-
-        <a href="/register" id="mobile-signup">
-            Sign Up
-        </a>
-
-        <a href="/login" id="mobile-login">
-            Login
-        </a>
+            <a href="/login" id="mobile-login">
+                Login
+            </a>
+        </div>
     </div>
-    
-</div>
 
 <script>
     const token = localStorage.getItem("token");
@@ -148,13 +148,14 @@
     const favoriteBtn = document.getElementById("favorite-btn");
     const favoriteCount = document.getElementById("favorite-count");
 
+    const mobileFavoriteIcon = document.getElementById("mobile-favorite-icon");
+    const mobileFavoriteIconCount = document.getElementById("mobile-favorite-icon-count");
+
     const postPropertyLink = document.getElementById("post-property-link");
     const myPropertiesLink = document.getElementById("my-properties-link");
     const myInquiriesLink = document.getElementById("my-inquiries-link");
     const adminDashboardLink = document.getElementById("admin-dashboard-link");
 
-    const mobileFavoriteBtn = document.getElementById("mobile-favorite-btn");
-    const mobileFavoriteCount = document.getElementById("mobile-favorite-count");
     const mobilePostPropertyBtn = document.getElementById("mobile-post-property-btn");
     const mobileMyPropertiesBtn = document.getElementById("mobile-my-properties-btn");
     const mobileMyInquiriesBtn = document.getElementById("mobile-my-inquiries-btn");
@@ -170,7 +171,6 @@
         signup.style.display = "none";
         login.style.display = "none";
 
-        mobileFavoriteBtn.style.display = "block";
         mobileProfileBtn.style.display = "block";
         mobileSignup.style.display = "none";
         mobileLogin.style.display = "none";
@@ -187,7 +187,6 @@
 
         if (role === "admin") {
             adminDashboardLink.style.display = "flex";
-
             mobileAdminDashboardBtn.style.display = "block";
 
             postPropertyLink.style.display = "flex";
@@ -235,7 +234,7 @@
 
                 if (data.favorites) {
                     favoriteCount.textContent = data.favorites.length;
-                    mobileFavoriteCount.textContent = data.favorites.length;
+                    mobileFavoriteIconCount.textContent = data.favorites.length;
                 }
             })
             .catch(function (error) {
@@ -247,7 +246,6 @@
         signup.style.display = "inline-block";
         login.style.display = "inline-block";
 
-        mobileFavoriteBtn.style.display = "block";
         mobilePostPropertyBtn.style.display = "none";
         mobileMyPropertiesBtn.style.display = "none";
         mobileMyInquiriesBtn.style.display = "none";
@@ -261,7 +259,7 @@
             window.location.href = "/login";
         });
 
-        mobileFavoriteBtn.addEventListener("click", function (event) {
+        mobileFavoriteIcon.addEventListener("click", function (event) {
             event.preventDefault();
             window.location.href = "/login";
         });
