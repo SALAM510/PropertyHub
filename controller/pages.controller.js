@@ -75,7 +75,9 @@ const VerifyOtpPage = (req, res) => {
 
 const PropertiesDetailsPage = async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findById(req.params.id).populate(
+      "postedBy",
+    );
 
     if (!property) {
       return res.status(404).send("Property not found");
@@ -83,13 +85,14 @@ const PropertiesDetailsPage = async (req, res) => {
 
     res.render("pages/property-details", {
       property: property,
+      owner: property.postedBy,
     });
   } catch (error) {
     console.log(error);
 
     res.status(500).send("Unable to load property");
   }
-};
+}; 
 
 const AdminPage = (req, res) => {
   res.render("pages/admin");
