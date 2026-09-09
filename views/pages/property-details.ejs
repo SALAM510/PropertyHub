@@ -28,6 +28,7 @@
         <button type="button" id="close-image">
             <i class="fa-solid fa-xmark"></i>
         </button>
+
         <img id="fullscreen-image" src="" alt="<%= property.title %>">
     </div>
 
@@ -37,6 +38,7 @@
                 <h1>
                     <%= property.title %>
                 </h1>
+
                 <p>
                     <%= property.city %>, <%= property.state %>
                 </p>
@@ -52,28 +54,40 @@
         </h2>
 
         <div id="property-features">
-            <p><strong>Property Type:</strong>
+            <p>
+                <strong>Property Type:</strong>
                 <%= property.propertyType %>
             </p>
-            <p><strong>Address:</strong>
+
+            <p>
+                <strong>Address:</strong>
                 <%= property.address %>
             </p>
-            <p><strong>Bathrooms:</strong>
+
+            <p>
+                <strong>Bathrooms:</strong>
                 <%= property.bathrooms %>
             </p>
-            <p><strong>Bedrooms:</strong>
+
+            <p>
+                <strong>Bedrooms:</strong>
                 <%= property.bedrooms %>
             </p>
-            <p><strong>Square Footage:</strong>
+
+            <p>
+                <strong>Square Footage:</strong>
                 <%= property.squarefootage %>
             </p>
-            <p><strong>WhatsApp:</strong>
+
+            <p>
+                <strong>WhatsApp:</strong>
                 <%= property.whatsapp %>
             </p>
         </div>
 
         <div id="description">
             <h2>Property Description</h2>
+
             <p>
                 <%= property.description %>
             </p>
@@ -82,6 +96,7 @@
         <div id="property-posted">
             <p>
                 <strong>Posted by:</strong>
+
                 <% if (owner) { %>
                     <%= owner.name %>
                         <% } else { %>
@@ -97,6 +112,7 @@
 
         <div id="inquiry-section">
             <h2>Send an Inquiry</h2>
+
             <p>
                 Interested in this property? Send a message to the property owner.
             </p>
@@ -122,10 +138,17 @@
     const propertyRole = localStorage.getItem("role");
     const propertyId = "<%= property._id %>";
 
-    const inquirySection = document.getElementById("inquiry-section");
-    const inquiryForm = document.getElementById("inquiry-form");
-    const inquiryMessage = document.getElementById("inquiry-message");
-    const inquiryStatus = document.getElementById("inquiry-message-status");
+    const inquirySection =
+        document.getElementById("inquiry-section");
+
+    const inquiryForm =
+        document.getElementById("inquiry-form");
+
+    const inquiryMessage =
+        document.getElementById("inquiry-message");
+
+    const inquiryStatus =
+        document.getElementById("inquiry-message-status");
 
     if (propertyRole !== "buyer") {
         inquirySection.style.display = "none";
@@ -140,14 +163,16 @@
         }
 
         if (propertyRole !== "buyer") {
-            inquiryStatus.textContent = "Only buyers can send inquiries";
+            inquiryStatus.textContent =
+                "Only buyers can send inquiries";
             return;
         }
 
         const message = inquiryMessage.value.trim();
 
         if (!message) {
-            inquiryStatus.textContent = "All fields are required";
+            inquiryStatus.textContent =
+                "All fields are required";
             return;
         }
 
@@ -175,40 +200,56 @@
             inquiryMessage.value = "";
         } catch (error) {
             console.error(error);
-            inquiryStatus.textContent = "Unable to send inquiry. Please try again.";
+
+            inquiryStatus.textContent =
+                "Unable to send inquiry. Please try again.";
         }
     });
 
-    const favoriteButton = document.getElementById("favorite-button");
-    const favoriteIcon = favoriteButton.querySelector("i");
+    const favoriteButton =
+        document.getElementById("favorite-button");
+
+    const favoriteIcon =
+        favoriteButton.querySelector("i");
 
     let favoriteId = null;
 
     function updateFavoriteCount(change) {
-        const favoriteCount = document.getElementById("favorite-count");
-        const mobileFavoriteCount = document.getElementById("mobile-favorite-count");
+        const favoriteCount =
+            document.getElementById("favorite-count");
+
+        const mobileFavoriteCount =
+            document.getElementById("mobile-favorite-count");
 
         if (favoriteCount) {
-            let count = Number(favoriteCount.textContent) || 0;
+            let count =
+                Number(favoriteCount.textContent) || 0;
+
             count = Math.max(0, count + change);
+
             favoriteCount.textContent = count;
         }
 
         if (mobileFavoriteCount) {
-            let count = Number(mobileFavoriteCount.textContent) || 0;
+            let count =
+                Number(mobileFavoriteCount.textContent) || 0;
+
             count = Math.max(0, count + change);
+
             mobileFavoriteCount.textContent = count;
         }
     }
 
     function showFavorited() {
         favoriteButton.classList.add("active");
+
         favoriteIcon.classList.remove("fa-regular");
         favoriteIcon.classList.add("fa-solid");
     }
 
     function showFavorite() {
         favoriteButton.classList.remove("active");
+
         favoriteIcon.classList.remove("fa-solid");
         favoriteIcon.classList.add("fa-regular");
     }
@@ -260,7 +301,8 @@
             return;
         }
 
-        const isFavorite = favoriteButton.classList.contains("active");
+        const isFavorite =
+            favoriteButton.classList.contains("active");
 
         try {
             let response;
@@ -277,12 +319,16 @@
                     })
                 });
             } else {
-                response = await fetch("/favorite/" + favoriteId, {
-                    method: "DELETE",
-                    headers: {
-                        "Authorization": "Bearer " + userToken
+                response = await fetch(
+                    "/favorite/" + favoriteId,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization":
+                                "Bearer " + userToken
+                        }
                     }
-                });
+                );
             }
 
             const data = await response.json();
@@ -294,25 +340,43 @@
 
             if (!isFavorite) {
                 favoriteId = data.favorite._id;
+
                 showFavorited();
+
                 updateFavoriteCount(1);
+
+                alert("Property added to favorites.");
             } else {
                 favoriteId = null;
+
                 showFavorite();
+
                 updateFavoriteCount(-1);
+
+                alert("Property removed from favorites.");
             }
         } catch (error) {
             console.error(error);
-            alert("Unable to update favorite. Please try again.");
+
+            alert(
+                "Unable to update favorite. Please try again."
+            );
         }
     });
 
     checkFavorite();
 
-    const propertyImages = document.querySelectorAll(".property-image");
-    const imageFullscreen = document.getElementById("image-fullscreen");
-    const fullscreenImage = document.getElementById("fullscreen-image");
-    const closeImage = document.getElementById("close-image");
+    const propertyImages =
+        document.querySelectorAll(".property-image");
+
+    const imageFullscreen =
+        document.getElementById("image-fullscreen");
+
+    const fullscreenImage =
+        document.getElementById("fullscreen-image");
+
+    const closeImage =
+        document.getElementById("close-image");
 
     propertyImages.forEach(function (image) {
         image.addEventListener("click", function () {

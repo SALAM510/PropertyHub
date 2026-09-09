@@ -47,20 +47,20 @@ const createProperty = async (req, res) => {
       });
     }
 
-    req.files.reverse();
+   req.files.reverse();
 
-    const imageUrls = [];
+   const imageUrls = [];
 
-    for (const file of req.files) {
-      const base64 = file.buffer.toString("base64");
-      const dataUri = `data:${file.mimetype};base64,${base64}`;
+   for (const file of req.files) {
+     const base64 = file.buffer.toString("base64");
+     const dataUri = `data:${file.mimetype};base64,${base64}`;
 
-      const result = await cloudinary.uploader.upload(dataUri, {
-        folder: "propertyhub/properties",
-      });
+     const result = await cloudinary.uploader.upload(dataUri, {
+       folder: "propertyhub/properties",
+     });
 
-      imageUrls.push(result.secure_url);
-    }
+     imageUrls.push(result.secure_url);
+   }
 
     const newProperty = new Property({
       title,

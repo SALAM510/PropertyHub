@@ -287,15 +287,16 @@ async function getProfile(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const { id } = req.params;
     const { name, phone } = req.body;
 
-    if (!id) {
-      return res.status(400).send("User ID is required");
+    if (!name || !phone) {
+      return res.status(400).json({
+        message: "Name and phone are required",
+      });
     }
 
     const updateuser = await User.findByIdAndUpdate(
-      id,
+      req.user._id,
       {
         name: name,
         phone: phone,
@@ -306,17 +307,19 @@ async function updateUser(req, res) {
     );
 
     if (!updateuser) {
-      return res.status(404).send("User Not Found");
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
 
-    res.status(200).json({
-      message: "User updated successfully",
-      updateuser: updateuser,
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      user: updateuser,
     });
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       message: "Internal Server Error",
       error: error.message,
     });

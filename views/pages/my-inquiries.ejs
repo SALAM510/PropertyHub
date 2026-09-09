@@ -11,13 +11,13 @@
 
 <%- include("../partials/navbar") %>
 
-        <div class="my-inquiries-container">
-            <h1>Inquiries</h1>
-            <p id="inquiry-description"></p>
-            <div id="inquiries-list">
-                <p class="inquiry-message">Loading inquiries...</p>
-            </div>
-        </div>
+<div class="my-inquiries-container">
+    <h1>Inquiries</h1>
+    <p id="inquiry-description"></p>
+    <div id="inquiries-list">
+        <p class="inquiry-message">Loading inquiries...</p>
+    </div>
+</div>
 
 <%- include("../partials/footer") %>
 
@@ -36,13 +36,16 @@
 
         if (inquiryRole === "buyer") {
             inquiryUrl = "/inquiry";
-            inquiryDescription.textContent = "View the inquiries you have sent to property sellers.";
+            inquiryDescription.textContent =
+                "View the inquiries you have sent to property sellers.";
         } else if (inquiryRole === "seller") {
             inquiryUrl = "/inquiry/seller";
-            inquiryDescription.textContent = "View the inquiries buyers have sent to you.";
+            inquiryDescription.textContent =
+                "View the inquiries buyers have sent to you.";
         } else if (inquiryRole === "admin") {
             inquiryUrl = "/inquiry/seller";
-            inquiryDescription.textContent = "View all inquiries sent by buyers.";
+            inquiryDescription.textContent =
+                "View all inquiries sent by buyers.";
         } else {
             inquiriesList.innerHTML = `
                 <p class="inquiry-message">
@@ -91,45 +94,153 @@
                         </p>
                     `;
                 }
-
                 return;
             }
 
             inquiriesList.innerHTML = "";
 
             data.inquiries.forEach(function (inquiry) {
-                const propertyTitle = inquiry.property
-                    ? inquiry.property.title
+                const property = inquiry.property;
+                const propertyTitle = property
+                    ? property.title
                     : "Property unavailable";
+                const propertyImage =
+                    property && property.images && property.images.length > 0
+                        ? property.images[0]
+                        : "/images/logo.avif";
+                const propertyLocation = property
+                    ? property.city + ", " + property.state
+                    : "Location unavailable";
+                const propertyPrice = property
+                    ? Number(property.price).toLocaleString()
+                    : "N/A";
 
                 const inquiryCard = document.createElement("div");
                 inquiryCard.className = "inquiry-card";
 
                 if (inquiryRole === "buyer") {
                     inquiryCard.innerHTML = `
-                        <h3>${propertyTitle}</h3>
-                        <p><strong>Seller:</strong> ${inquiry.sellerName}</p>
-                        <p><strong>Email:</strong> ${inquiry.sellerEmail}</p>
-                        <p><strong>WhatsApp:</strong> ${inquiry.sellerPhone}</p>
-                        <p><strong>Message:</strong> ${inquiry.message}</p>
-                        <p><strong>Status:</strong> ${inquiry.status}</p>
-                        <p><strong>Date:</strong> ${new Date(inquiry.createdAt).toLocaleDateString()}</p>
-                        <button type="button" onclick="deleteInquiry('${inquiry._id}')">
-                            Delete Inquiry
-                        </button>
+                        <div class="inquiry-property-image">
+                            <img
+                                src="${propertyImage}"
+                                alt="${propertyTitle}"
+                            >
+                        </div>
+
+                        <div class="inquiry-content">
+                            <h3>${propertyTitle}</h3>
+
+                            <p>
+                                <strong>Location:</strong>
+                                ${propertyLocation}
+                            </p>
+
+                            <p>
+                                <strong>Price:</strong>
+                                ₦${propertyPrice}
+                            </p>
+
+                            <p>
+                                <strong>Seller:</strong>
+                                ${inquiry.sellerName}
+                            </p>
+
+                            <p>
+                                <strong>Email:</strong>
+                                ${inquiry.sellerEmail}
+                            </p>
+
+                            <p>
+                                <strong>WhatsApp:</strong>
+                                ${inquiry.sellerPhone}
+                            </p>
+
+                            <p>
+                                <strong>Message:</strong>
+                                ${inquiry.message}
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+                                ${inquiry.status}
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                ${new Date(inquiry.createdAt).toLocaleDateString()}
+                            </p>
+
+                            <p class="inquiry-response-message">
+                                Your inquiry has been sent. The property owner will contact you through email or WhatsApp.
+                            </p>
+
+                            <button
+                                type="button"
+                                onclick="deleteInquiry('${inquiry._id}')"
+                            >
+                                Delete Inquiry
+                            </button>
+                        </div>
                     `;
                 } else {
                     inquiryCard.innerHTML = `
-                        <h3>${propertyTitle}</h3>
-                        <p><strong>From:</strong> ${inquiry.buyerName}</p>
-                        <p><strong>Email:</strong> ${inquiry.buyerEmail}</p>
-                        <p><strong>WhatsApp:</strong> ${inquiry.buyerPhone}</p>
-                        <p><strong>Message:</strong> ${inquiry.message}</p>
-                        <p><strong>Status:</strong> ${inquiry.status}</p>
-                        <p><strong>Date:</strong> ${new Date(inquiry.createdAt).toLocaleDateString()}</p>
-                        <button type="button" onclick="deleteInquiry('${inquiry._id}')">
-                            Delete Inquiry
-                        </button>
+                        <div class="inquiry-property-image">
+                            <img
+                                src="${propertyImage}"
+                                alt="${propertyTitle}"
+                            >
+                        </div>
+
+                        <div class="inquiry-content">
+                            <h3>${propertyTitle}</h3>
+
+                            <p>
+                                <strong>Location:</strong>
+                                ${propertyLocation}
+                            </p>
+
+                            <p>
+                                <strong>Price:</strong>
+                                ₦${propertyPrice}
+                            </p>
+
+                            <p>
+                                <strong>From:</strong>
+                                ${inquiry.buyerName}
+                            </p>
+
+                            <p>
+                                <strong>Email:</strong>
+                                ${inquiry.buyerEmail}
+                            </p>
+
+                            <p>
+                                <strong>WhatsApp:</strong>
+                                ${inquiry.buyerPhone}
+                            </p>
+
+                            <p>
+                                <strong>Message:</strong>
+                                ${inquiry.message}
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+                                ${inquiry.status}
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                ${new Date(inquiry.createdAt).toLocaleDateString()}
+                            </p>
+
+                            <button
+                                type="button"
+                                onclick="deleteInquiry('${inquiry._id}')"
+                            >
+                                Delete Inquiry
+                            </button>
+                        </div>
                     `;
                 }
 

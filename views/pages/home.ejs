@@ -5,261 +5,295 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+        integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
 </head>
 <body>
 
-    <%- include("../partials/navbar") %>
+<%- include("../partials/navbar") %>
 
-        <div id="home">
+<div id="home">
+    <div id="home-text">
+        <h1>
+            Build Your Future,<br>
+            One Property at a Time.
+        </h1>
 
-            <div id="home-text">
+        <p>
+            Find a place you'll love.
+            Discover properties that fit your lifestyle,
+            budget and future.
+        </p>
+    </div>
 
-                <h1>
-                    Build Your Future,<br>
-                    One Property at a Time.
-                </h1>
+    <div id="search">
+        <div id="search-tabs">
+            <button type="button" class="searchtab active" data-type="buy">
+                BUY
+            </button>
 
+            <button type="button" class="searchtab" data-type="rent">
+                RENT
+            </button>
+        </div>
+
+        <div id="search-options">
+            <div>
+                <label>Location</label>
+                <input type="text" id="location" placeholder="Enter location">
+            </div>
+
+            <div>
+                <label>Property Type</label>
+                <select id="propertyType">
+                    <option value="">
+                        Property Type
+                    </option>
+
+                    <option value="house">
+                        House
+                    </option>
+
+                    <option value="Penthouse">
+                        Penthouse
+                    </option>
+
+                    <option value="Duplex">
+                        Duplex
+                    </option>
+
+                    <option value="Detached Duplex">
+                        Detached Duplex
+                    </option>
+
+                    <option value="Semi Detached Duplex">
+                        Semi Detached Duplex
+                    </option>
+
+                    <option value="Bungalow">
+                        Bungalow
+                    </option>
+
+                    <option value="Detached Bungalow">
+                        Detached Bungalow
+                    </option>
+
+                    <option value="Semi Detached Bungalow">
+                        Semi Detached Bungalow
+                    </option>
+
+                    <option value="Terrace">
+                        Terrace
+                    </option>
+
+                    <option value="Hostels">
+                        Hostels
+                    </option>
+
+                    <option value="Self Conatin">
+                        Self Conatin
+                    </option>
+
+                    <option value="Maisonette">
+                        Maisonette
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <label>Minimum Price</label>
+
+                <select id="minPrice">
+                    <option value="">
+                        Minimum Price
+                    </option>
+
+                    <option value="10000000">10,000,000</option>
+                    <option value="20000000">20,000,000</option>
+                    <option value="30000000">30,000,000</option>
+                    <option value="50000000">50,000,000</option>
+                    <option value="100000000">100,000,000</option>
+                    <option value="200000000">200,000,000</option>
+                    <option value="500000000">500,000,000</option>
+                    <option value="1000000000">1,000,000,000</option>
+                    <option value="5000000000">5,000,000,000</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Maximum Price</label>
+
+                <select id="maxPrice">
+                    <option value="">
+                        Maximum Price
+                    </option>
+
+                    <option value="10000000">10,000,000</option>
+                    <option value="20000000">20,000,000</option>
+                    <option value="30000000">30,000,000</option>
+                    <option value="50000000">50,000,000</option>
+                    <option value="100000000">100,000,000</option>
+                    <option value="200000000">200,000,000</option>
+                    <option value="500000000">500,000,000</option>
+                    <option value="1000000000">1,000,000,000</option>
+                    <option value="5000000000">5,000,000,000</option>
+                </select>
+            </div>
+
+            <button type="button" id="search-button">
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="property-list">
+    <div id="property-head">
+        <h2>Property List</h2>
+
+        <a href="/properties">
+            See All
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div id="properties">
+    <% if (properties && properties.length> 0) { %>
+    
+        <% properties.forEach(function(property) { %>
+    
+            <div class="property">
+                <img src="<%= property.images[0] %>" alt="<%= property.title %>">
+    
+                <h3>
+                    <%= property.title %>
+                </h3>
+    
                 <p>
-                    Find a place you'll love.
-                    Discover properties that fit your lifestyle,
-                    budget and future.
+                    <%= property.city %>, <%= property.state %>
                 </p>
-
-            </div>
-
-            <div id="search">
-
-                <div id="search-tabs">
-
-                    <button type="button" class="searchtab active" data-type="buy">
-                        BUY
-                    </button>
-
-                    <button type="button" class="searchtab" data-type="rent">
-                        RENT
-                    </button>
-
-                </div>
-
-                <div id="search-options">
-
-                    <div>
-                        <label>Location</label>
-                        <input type="text" id="location" placeholder="Enter location">
-                    </div>
-
-                    <div>
-                        <label>Property Type</label>
-                        <select id="propertyType">
-                            <option value="">
-                                Property Type
-                            </option>
-                            <option value="house">
-                                House
-                            </option>
-                            <option value="Penthouse">
-                                Penthouse
-                            </option>
-                            <option value="Duplex">
-                                Duplex
-                            </option>
-                            <option value="Detached Duplex">
-                                Detached Duplex
-                            </option>
-                            <option value="Semi Detached Duplex">
-                                Semi Detached Duplex
-                            </option>
-                            <option value="Bungalow">
-                                Bungalow
-                            </option>
-                            <option value="Detached Bungalow">
-                                Detached Bungalow
-                            </option>
-                            <option value="Semi Detached Bungalow">
-                                Semi Detached Bungalow
-                            </option>
-                            <option value="Terrace">
-                                Terrace
-                            </option>
-                            <option value="Hostels">
-                                Hostels
-                            </option>
-                            <option value="Self Conatin">
-                                Self Conatin
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div>
-
-                        <label>Minimum Price</label>
-                        <select id="minPrice">
-                            <option value="">
-                                Minimum Price
-                            </option>
-                            <option value="10000000">10,000,000</option>
-                            <option value="20000000">20,000,000</option>
-                            <option value="30000000">30,000,000</option>
-                            <option value="50000000">50,000,000</option>
-                            <option value="100000000">100,000,000</option>
-                            <option value="200000000">200,000,000</option>
-                            <option value="500000000">500,000,000</option>
-                            <option value="1000000000">1,000,000,000</option>
-                            <option value="5000000000">5,000,000,000</option>
-
-                        </select>
-
-                    </div>
-
-                    <div>
-
-                        <label>Maximum Price</label>
-                        <select id="maxPrice">
-                            <option value="">
-                                Maximum Price
-                            </option>
-                            <option value="10000000">10,000,000</option>
-                            <option value="20000000">20,000,000</option>
-                            <option value="30000000">30,000,000</option>
-                            <option value="50000000">50,000,000</option>
-                            <option value="100000000">100,000,000</option>
-                            <option value="200000000">200,000,000</option>
-                            <option value="500000000">500,000,000</option>
-                            <option value="1000000000">1,000,000,000</option>
-                            <option value="5000000000">5,000,000,000</option>
-
-                        </select>
-
-                    </div>
-
-                    <button type="button" id="search-button">
-                        Search
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div id="property-list">
-
-            <div id="property-head">
-
-                <h2>Property List</h2>
-
-                <a href="/properties">
-                    See All
-                    <i class="fa-solid fa-arrow-right"></i>
+    
+                <strong>
+                    ₦<%= Number(property.price).toLocaleString() %>
+                </strong>
+    
+                <p>
+                    <%= property.bedrooms %> bed
+                        <%= property.bathrooms %> baths
+                </p>
+    
+                <a href="/properties-details/<%= property._id %>">
+                    See More
                 </a>
-
             </div>
+    
+            <% }) %>
+    
+                <% } else { %>
+    
+                    <p id="no-properties">
+                        No properties are available at the moment.
+                    </p>
+    
+                    <% } %>
+    </div>
+</div>
 
+<div id="why-propertyhub">
+    <div class="section-heading">
+        <h2>Why Choose PropertyHub?</h2>
+        <p>Everything you need to find or list your perfect property.</p>
+    </div>
 
-            <div id="properties">
-
-                <div class="property">
-
-                    <img src="/images/semidetached.webp" alt="Property">
-
-                    <h3>Semi Detached Duplex</h3>
-
-                    <p>Lagos, Nigeria</p>
-
-                    <strong>₦200,000,000</strong>
-
-                    <p>3 bed 3 baths</p>
-
-                </div>
-
-
-                <div class="property">
-
-                    <img src="/images/detached.jpeg" alt="Property">
-
-                    <h3>Fully Detached Duplex</h3>
-
-                    <p>Abuja, Nigeria</p>
-
-                    <strong>₦200,000,000</strong>
-
-                    <p>4 bed 4 baths</p>
-
-                </div>
-
-
-                <div class="property">
-
-                    <img src="/images/duplex.jpeg" alt="Property">
-
-                    <h3>Modern Contemporary Duplex</h3>
-
-                    <p>Ibadan, Nigeria</p>
-
-                    <strong>₦350,000,000</strong>
-
-                    <p>5 bed 5 baths</p>
-
-                </div>
-
-            </div>
-
+    <div id="why-cards">
+        <div class="why-card">
+            <i class="fa-solid fa-house"></i>
+            <h3>Quality Properties</h3>
+            <p>Discover carefully listed properties in different cities and locations.</p>
         </div>
 
-
-        <div id="ratings">
-
-            <div>
-
-                <i class="fa-solid fa-circle-check"></i>
-
-                <h2>100%</h2>
-
-                <p>Clients Satisfaction</p>
-
-            </div>
-
-
-            <div>
-
-                <i class="fa-solid fa-house"></i>
-
-                <h2>500+</h2>
-
-                <p>Properties Listed</p>
-
-            </div>
-
-
-            <div>
-
-                <i class="fa-solid fa-location-dot"></i>
-
-                <h2>100+</h2>
-
-                <p>Cities & Locations</p>
-
-            </div>
-
-
-            <div>
-
-                <i class="fa-solid fa-star"></i>
-
-                <h2>2,000+</h2>
-
-                <p>Positive Reviews</p>
-
-            </div>
-
+        <div class="why-card">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>Easy Search</h3>
+            <p>Find properties quickly using location, property type and price filters.</p>
         </div>
 
+        <div class="why-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Trusted Listings</h3>
+            <p>Properties are reviewed before they become available to buyers and renters.</p>
+        </div>
 
-        <%- include("../partials/footer") %>
+        <div class="why-card">
+            <i class="fa-solid fa-comments"></i>
+            <h3>Connect Directly</h3>
+            <p>Contact property owners and get the information you need before making a decision.</p>
+        </div>
+    </div>
+</div>
+
+<div id="how-it-works">
+    <div class="section-heading">
+        <h2>How PropertyHub Works</h2>
+        <p>Finding your next property is simple.</p>
+    </div>
+
+    <div id="steps">
+        <div class="step">
+            <span>1</span>
+            <h3>Search</h3>
+            <p>Search for properties based on your preferred location, type and budget.</p>
+        </div>
+
+        <div class="step">
+            <span>2</span>
+            <h3>Explore</h3>
+            <p>View property details, images, prices and other important information.</p>
+        </div>
+
+        <div class="step">
+            <span>3</span>
+            <h3>Connect</h3>
+            <p>Contact the property owner and take the next step towards your new property.</p>
+        </div>
+    </div>
+</div>
+
+<div id="home-cta">
+    <h2>Ready to Find Your Next Property?</h2>
+    <p>Explore our available properties and find a place that feels like home.</p>
+    <a href="/properties">Explore Properties</a>
+</div>
+
+<div id="ratings">
+    <div>
+        <i class="fa-solid fa-circle-check"></i>
+        <h2>100%</h2>
+        <p>Clients Satisfaction</p>
+    </div>
+
+    <div>
+        <i class="fa-solid fa-house"></i>
+        <h2>500+</h2>
+        <p>Properties Listed</p>
+    </div>
+
+    <div>
+        <i class="fa-solid fa-location-dot"></i>
+        <h2>100+</h2>
+        <p>Cities & Locations</p>
+    </div>
+
+    <div>
+        <i class="fa-solid fa-star"></i>
+        <h2>2,000+</h2>
+        <p>Positive Reviews</p>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
 
 <script>
     const searchTabs = document.querySelectorAll(".searchtab");
@@ -284,11 +318,17 @@
     });
 
     searchButton.addEventListener("click", function () {
+        const location =
+            document.getElementById("location").value;
 
-        const location = document.getElementById("location").value;
-        const propertyType = document.getElementById("propertyType").value;
-        const minPrice = document.getElementById("minPrice").value;
-        const maxPrice = document.getElementById("maxPrice").value;
+        const propertyType =
+            document.getElementById("propertyType").value;
+
+        const minPrice =
+            document.getElementById("minPrice").value;
+
+        const maxPrice =
+            document.getElementById("maxPrice").value;
 
         const params = new URLSearchParams();
 
@@ -310,7 +350,8 @@
             params.append("maxPrice", maxPrice);
         }
 
-        window.location.href = "/properties/search?" + params.toString();
+        window.location.href =
+            "/properties/search?" + params.toString();
     });
 </script>
 

@@ -1,24 +1,22 @@
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
     font-family: "Poppins", sans-serif;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/image1.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-    width: 100%;
 }
 
 #home {
     width: 100%;
     min-height: 100vh;
-    padding: 150px 60px 60px;
+    padding: 80px 60px 60px;
     color: white;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/image1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #home h1 {
@@ -111,6 +109,100 @@ body {
     background: #172554;
 }
 
+#property-list {
+    width: 100%;
+    padding: 70px 60px;
+    background: white;
+}
+
+#property-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#property-head h2 {
+    font-size: 30px;
+    color: #1e3a8a;
+}
+
+#property-head a {
+    text-decoration: none;
+    color: #1e3a8a;
+    font-size: 17px;
+}
+
+#properties {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.property {
+    width: calc(33.33% - 17px);
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+    border: 1px solid #e5e7eb;
+}
+
+.property:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.property img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.property h3 {
+    font-size: 20px;
+    margin: 18px 20px 8px;
+    color: #172554;
+}
+
+.property p {
+    margin: 0 20px 10px;
+    color: #64748b;
+}
+
+.property strong {
+    display: block;
+    margin: 10px 20px;
+    font-size: 18px;
+    color: #1e3a8a;
+}
+
+.property > a {
+    display: inline-block;
+    margin: 5px 20px 20px;
+    padding: 10px 18px;
+    background: #1e3a8a;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.property > a:hover {
+    background: #162d6b;
+}
+
+#no-properties {
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    color: #64748b;
+}
+
 #ratings {
     width: 100%;
     padding: 50px 60px;
@@ -139,65 +231,194 @@ body {
     color: #555;
 }
 
-#property-list {
-    width: 100%;
-    padding: 70px 60px;
+#why-propertyhub {
+    padding: 10px 60px;
     background: white;
 }
 
-#property-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
+.section-heading {
+    text-align: center;
+    margin-bottom: 45px;
 }
 
-#property-head h2 {
+.section-heading h2 {
+    font-size: 32px;
+    color: #172554;
+    margin-bottom: 10px;
+}
+
+.section-heading p {
+    color: #64748b;
+    font-size: 16px;
+}
+
+#why-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.why-card {
+    text-align: center;
+    padding: 30px 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #f8fafc;
+    transition: .3s;
+}
+
+.why-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.why-card i {
     font-size: 30px;
     color: #1e3a8a;
+    margin-bottom: 18px;
 }
 
-#property-head a {
-    text-decoration: none;
-    color: #1e3a8a;
-    font-size: 17px;
+.why-card h3 {
+    color: #172554;
+    font-size: 19px;
+    margin-bottom: 10px;
 }
 
-#properties {
+.why-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#how-it-works {
+    padding: 70px 60px;
+    background: #f8fafc;
+}
+
+#steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.step {
+    text-align: center;
+    padding: 25px;
+}
+
+.step span {
     display: flex;
-    gap: 25px;
-}
-
-.property {
-    width: 33.33%;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-}
-
-.property img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
-
-.property h3 {
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #1e3a8a;
+    color: white;
     font-size: 20px;
-    margin: 18px 20px 8px;
-    color: #222;
+    font-weight: bold;
 }
 
-.property p {
-    margin: 0 20px 10px;
-    color: #666;
+.step h3 {
+    color: #172554;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
-.property strong {
-    display: block;
-    margin: 10px 20px;
-    font-size: 18px;
-    color: black;
+.step p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#home-cta {
+    padding: 70px 30px;
+    text-align: center;
+    background-color: white;
+}
+
+#home-cta h2 {
+    color: #1e3a8a;
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+#home-cta p {
+    color: #1e3a8a;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+#home-cta a {
+    display: inline-block;
+    padding: 12px 25px;
+    background: white;
+    color: #1e3a8a;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+#home-cta a:hover {
+    background: #172554;
+    color: white;
+}
+
+@media (max-width: 1000px) {
+    #why-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #steps {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    #why-propertyhub,
+    #how-it-works {
+        padding: 50px 20px;
+    }
+
+    .section-heading h2,
+    #home-cta h2 {
+        font-size: 26px;
+    }
+
+    #why-cards {
+        grid-template-columns: 1fr;
+    }
+
+    #home-cta {
+        padding: 55px 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+
+    #home {
+        padding: 130px 35px 60px;
+    }
+
+    #search {
+        width: 100%;
+    }
+
+    #search-options {
+        flex-wrap: wrap;
+    }
+
+    .property {
+        width: calc(50% - 13px);
+    }
 }
 
 @media (max-width: 768px) {
@@ -314,5 +535,28 @@ body {
 
     #ratings p {
         font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    #home {
+        padding: 110px 15px 45px;
+    }
+
+    #home h1 {
+        font-size: 30px;
+    }
+
+    #property-list {
+        padding: 45px 15px;
+    }
+
+    #property-head h2 {
+        font-size: 23px;
+    }
+
+    .property img {
+        height: 200px;
     }
 }

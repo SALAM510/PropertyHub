@@ -2,8 +2,20 @@ const Property = require("../models/property");
 const User = require("../models/user");
 const isAuthenticated = require("../middleware/auth.middleware");
 
-const HomePage = (req, res) => {
-  res.render("pages/home");
+const HomePage = async (req, res) => {
+  try {
+    const properties = await Property.find({
+      status: "approved",
+    }).limit(3);
+
+    res.render("pages/home", {
+      properties: properties,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send("Unable to load home page");
+  }
 };
 
 const AboutPage = (req, res) => {
@@ -57,6 +69,7 @@ const VerifyOtpPage = (req, res) => {
 
   res.render("pages/verify-otp", {
     email: email,
+    error: "",
   });
 };
 

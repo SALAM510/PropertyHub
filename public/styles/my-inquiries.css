@@ -51,9 +51,25 @@ body {
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
 }
 
-.inquiry-card h3 {
+.inquiry-property-image {
+    width: 100%;
+    height: 220px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.inquiry-property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.inquiry-content h3 {
     margin: 0 0 20px;
     font-size: 20px;
     color: #172554;
@@ -67,6 +83,16 @@ body {
     margin: 10px 0;
     line-height: 1.5;
     color: #64748b;
+}
+
+.inquiry-response-message {
+    padding: 12px 15px;
+    margin-top: 20px !important;
+    background: #eff6ff;
+    border-left: 3px solid #1e3a8a;
+    border-radius: 0 6px 6px 0;
+    color: #172554 !important;
+    font-size: 14px;
 }
 
 .inquiry-card-header {
@@ -213,6 +239,10 @@ body {
 
     .inquiry-card {
         padding: 20px;
+    }
+
+    .inquiry-property-image {
+        height: 200px;
     }
 
     .inquiry-card-header {

@@ -6,126 +6,133 @@
     <title>PropertyHub</title>
     <link rel="stylesheet" href="/styles/postproperties.css">
     <link rel="shortcut icon" href="/images/logo.avif" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+    <%- include("../partials/navbar") %>
 
-<%- include("../partials/navbar") %>
+        <div id="post-property">
+            <div id="form-heading">
+                <h1>Post Your Property</h1>
+                <p>
+                    Add your property details and make it available
+                    to potential clients.
+                </p>
+            </div>
 
-<div id="post-property">
+            <div id="message"></div>
 
-    <div id="form-heading">
-        <h1>Post Your Property</h1>
-        <p>
-            Add your property details and make it available
-            to potential clients.
-        </p>
-    </div>
+            <form id="propertyForm" action="/properties" method="POST" enctype="multipart/form-data">
+                
+                <div id="images">
 
-    <div id="message"></div>
+                    <h3>Property Images</h3>
+                    <p>
+                        Please upload exactly 6 images. Make sure the exterior image is selected first.
+                    </p>
 
-    <form id="propertyForm" action="/properties" method="POST" enctype="multipart/form-data">
+                    <div id="image-input-container">
 
-        <div id="images">
-            <h3>Property Images</h3>
-            <p>
-                Please upload exactly 6 images. Make sure the exterior image is selected first.
-            </p>
-            <input type="file" name="images" accept="image/*" multiple>
+                        <input type="file" name="images" accept="image/*" multiple>
+                        <button type="button" id="clear-images" aria-label="Clear selected images">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div id="property-information">
+
+                    <div class="form-group">
+                        <label>Listing Type</label>
+                        <select name="listingType">
+                            <option value="">Listing-Type</option>
+                            <option value="For Sale">For Sale</option>
+                            <option value="For Rent">For Rent</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Property Title</label>
+                        <input type="text" name="title" placeholder="Enter property title">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Property Type</label>
+                        <input type="text" name="propertyType" placeholder="Enter property type">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" name="price" placeholder="Enter property price">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" name="address" placeholder="Enter property address">
+                    </div>
+
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" name="city" placeholder="Enter city">
+                    </div>
+
+                    <div class="form-group">
+                        <label>State</label>
+                        <input type="text" name="state" placeholder="Enter state">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Zip Code</label>
+                        <input type="text" name="zipcode" placeholder="Enter zip code">
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="number" name="whatsapp" placeholder="Enter WhatsApp number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bedrooms</label>
+                        <input type="number" name="bedrooms" placeholder="Enter number of bedrooms">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bathrooms</label>
+                        <input type="number" name="bathrooms" placeholder="Enter number of bathrooms">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Square Footage</label>
+                        <input type="number" name="squarefootage" placeholder="Enter square footage">
+                    </div>
+
+                </div>
+
+                <div id="description">
+                    <label>Property Description</label>
+                    <textarea name="description" rows="8"
+                        placeholder="Write a detailed description of the property..."></textarea>
+                </div>
+
+                <button type="submit">
+                    Post Property
+                </button>
+
+            </form>
         </div>
 
-        <div id="property-information">
-
-            <div class="form-group">
-                <label>Listing Type</label>
-                <select name="listingType">
-                    <option value="">Listing-Type</option>
-                    <option value="For Sale">For Sale</option>
-                    <option value="For Rent">For Rent</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Property Title</label>
-                <input type="text" name="title" placeholder="Enter property title">
-            </div>
-
-
-            <div class="form-group">
-                <label>Property Type</label>
-                <input type="text" name="propertyType" placeholder="Enter property type">
-            </div>
-
-            <div class="form-group">
-                <label>Price</label>
-                <input type="number" name="price" placeholder="Enter property price">
-            </div>
-
-            <div class="form-group">
-                <label>Address</label>
-                <input type="text" name="address" placeholder="Enter property address">
-            </div>
-
-            <div class="form-group">
-                <label>City</label>
-                <input type="text" name="city" placeholder="Enter city">
-            </div>
-
-            <div class="form-group">
-                <label>State</label>
-                <input type="text" name="state" placeholder="Enter state">
-            </div>
-
-            <div class="form-group">
-                <label>Zip Code</label>
-                <input type="text" name="zipcode" placeholder="Enter zip code">
-            </div>
-
-            <div class="form-group">
-                <label>WhatsApp Number</label>
-                <input type="number" name="whatsapp" placeholder="Enter WhatsApp number">
-            </div>
-
-            <div class="form-group">
-                <label>Bedrooms</label>
-                <input type="number" name="bedrooms" placeholder="Enter number of bedrooms">
-            </div>
-
-            <div class="form-group">
-                <label>Bathrooms</label>
-                <input type="number" name="bathrooms" placeholder="Enter number of bathrooms">
-            </div>
-
-            <div class="form-group">
-                <label>Square Footage</label>
-                <input type="number" name="squarefootage" placeholder="Enter square footage">
-            </div>
-
-        </div>
-
-        <div id="description">
-            <label>Property Description</label>
-            <textarea name="description" rows="8"
-                placeholder="Write a detailed description of the property..."></textarea>
-        </div>
-
-        <button type="submit">
-            Post Property
-        </button>
-
-    </form>
-
-</div>
-
-<%- include("../partials/footer") %>
+        <%- include("../partials/footer") %>
 
 <script>
     const propertyForm = document.getElementById("propertyForm");
     const message = document.getElementById("message");
     const imageInput = document.querySelector('input[name="images"]');
-
+    const clearImages = document.getElementById("clear-images");
     const savedPropertyData =
         JSON.parse(localStorage.getItem("propertyFormData")) || {};
-
     const propertyFields = propertyForm.querySelectorAll(
         "input:not([type='file']), select, textarea"
     );
@@ -143,26 +150,35 @@
 
     function savePropertyData() {
         const propertyData = {};
-
         propertyFields.forEach(function (field) {
             propertyData[field.name] = field.value;
         });
-
         localStorage.setItem(
             "propertyFormData",
             JSON.stringify(propertyData)
         );
     }
 
+    clearImages.addEventListener("click", function () {
+        imageInput.value = "";
+    });
+
+    function hideMessage() {
+        setTimeout(function () {
+            message.textContent = "";
+            message.className = "";
+        }, 10000);
+    }
+
     propertyForm.addEventListener("submit", async function (event) {
         event.preventDefault();
-
         const token = localStorage.getItem("token");
 
         if (imageInput.files.length !== 6) {
             message.textContent =
                 "Please select exactly 6 property images.";
             message.className = "error";
+            hideMessage();
             return;
         }
 
@@ -176,32 +192,26 @@
                 },
                 body: formData
             });
-
             const data = await response.json();
 
             if (response.ok) {
-
                 propertyForm.reset();
-
                 localStorage.removeItem("propertyFormData");
-
                 message.textContent = data.message;
                 message.className = "success";
-
+                hideMessage();
             } else {
                 message.textContent =
                     data.message || "Unable to post property.";
-
                 message.className = "error";
+                hideMessage();
             }
-
         } catch (error) {
             console.error(error);
-
             message.textContent =
                 "Unable to post property. Please try again.";
-
             message.className = "error";
+            hideMessage();
         }
     });
 </script>

@@ -70,19 +70,76 @@ body {
     font-size: 15px;
 }
 
-#logoutBtn {
+.profile-item input {
     width: 100%;
-    margin-top: 15px;
+    padding: 12px 15px;
+    background: white;
+    border: 1px solid #1e3a8a;
+    border-radius: 6px;
+    color: #1e293b;
+    font-size: 15px;
+    outline: none;
+}
+
+#profile-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#edit-profile-btn,
+#save-profile-btn,
+#cancel-profile-btn,
+#profile-logout-btn {
     padding: 12px;
     border: none;
     border-radius: 6px;
-    background: #dc2626;
     color: white;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
 }
 
-#logoutBtn:hover {
+#edit-profile-btn {
+    width: 100%;
+    background: #1e3a8a;
+}
+
+#edit-profile-btn:hover {
+    background: #172554;
+}
+
+#save-profile-btn {
+    flex: 1;
+    background: #1e3a8a;
+}
+
+#save-profile-btn:hover {
+    background: #172554;
+}
+
+#cancel-profile-btn {
+    flex: 1;
+    background: #64748b;
+}
+
+#cancel-profile-btn:hover {
+    background: #475569;
+}
+
+#profile-logout-btn {
+    width: 100%;
+    margin-top: 5px;
+    background: #dc2626;
+}
+
+#profile-logout-btn:hover {
     background: #b91c1c;
+}
+
+#profile-message {
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #16a34a;
 }
