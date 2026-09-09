@@ -10,7 +10,6 @@
 <body>
 
     <div id="navbar">
-
         <div id="logo">
             <h3>PropertyHub</h3>
         </div>
@@ -150,6 +149,8 @@
 
     const mobileFavoriteIcon = document.getElementById("mobile-favorite-icon");
     const mobileFavoriteIconCount = document.getElementById("mobile-favorite-icon-count");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const hamburger = document.getElementById("hamburger");
 
     const postPropertyLink = document.getElementById("post-property-link");
     const myPropertiesLink = document.getElementById("my-properties-link");
@@ -187,12 +188,11 @@
 
         if (role === "admin") {
             adminDashboardLink.style.display = "flex";
-            mobileAdminDashboardBtn.style.display = "block";
-
             postPropertyLink.style.display = "flex";
             myPropertiesLink.style.display = "flex";
             myInquiriesLink.style.display = "flex";
 
+            mobileAdminDashboardBtn.style.display = "block";
             mobilePostPropertyBtn.style.display = "block";
             mobileMyPropertiesBtn.style.display = "block";
             mobileMyInquiriesBtn.style.display = "block";
@@ -285,13 +285,9 @@
         localStorage.removeItem("token");
         localStorage.removeItem("name");
         localStorage.removeItem("role");
-        localStorage.removeItem("accountType");
 
         window.location.href = "/";
     });
-
-    const hamburger = document.getElementById("hamburger");
-    const mobileMenu = document.getElementById("mobile-menu");
 
     hamburger.addEventListener("click", function () {
         if (mobileMenu.style.display === "block") {
